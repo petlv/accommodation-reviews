@@ -17,5 +17,12 @@
             <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
         </p>
     </div>
+
+    <form method="post" action="/secured_with_captcha">
+        <input type="text" name="username" placeholder="Enter username..."/><br />
+        Enter sum of:<span th:text="${num1} + ' + ' + ${num2}"></span>
+        <input type="number" name="sum" placeholder="Enter sum here..."/><br />
+        <input type="submit"/>
+    </form>
 </body>
 </html>

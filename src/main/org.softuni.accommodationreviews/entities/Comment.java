@@ -16,8 +16,38 @@ public class Comment {
     @Column(name = "id", updatable = false, nullable = false)
     private String id;
 
-    @Column(nullable = false)
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "tourist_comments")
     private Tourist commentTourist;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "accommodation_comments")
+    private Accommodation commentAccommodation;
+
+    public Comment() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Tourist getCommentTourist() {
+        return commentTourist;
+    }
+
+    public void setCommentTourist(Tourist commentTourist) {
+        this.commentTourist = commentTourist;
+    }
+
+    public Accommodation getCommentAccommodation() {
+        return commentAccommodation;
+    }
+
+    public void setCommentAccommodation(Accommodation commentAccommodation) {
+        this.commentAccommodation = commentAccommodation;
+    }
 }

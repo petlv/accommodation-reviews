@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AccommodationsRepository extends JpaRepository<Accommodation, String> {
+public interface AccommodationRepository extends JpaRepository<Accommodation, String> {
 
     Accommodation findByName(String name);
 

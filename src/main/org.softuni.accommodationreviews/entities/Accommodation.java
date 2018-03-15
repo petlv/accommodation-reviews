@@ -24,15 +24,18 @@ public class Accommodation {
     @Column(nullable = false)
     private String description;
 
-    @Column(name = "owner", nullable = false)
     @OneToOne(cascade = CascadeType.ALL)
     private Owner accommodationOwner;
 
     @Column(nullable = false)
     private LocalDate validUntil;
 
-    @OneToMany(targetEntity = Comment.class)
-    private Set<Comment> comments;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "commentAccommodation")
+    private Set<Comment> accommodationComments;
+
+    @ManyToOne
+    @JoinColumn(name = "town_accommodations")
+    private Town accommodationTown;
 
 
     public Accommodation() {
@@ -78,11 +81,19 @@ public class Accommodation {
         this.validUntil = validUntil;
     }
 
-    public Set<Comment> getComments() {
-        return comments;
+    public Set<Comment> getAccommodationComments() {
+        return accommodationComments;
     }
 
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
+    public void setAccommodationComments(Set<Comment> accommodationComments) {
+        this.accommodationComments = accommodationComments;
+    }
+
+    public Town getAccommodationTown() {
+        return accommodationTown;
+    }
+
+    public void setAccommodationTown(Town accommodationTown) {
+        this.accommodationTown = accommodationTown;
     }
 }

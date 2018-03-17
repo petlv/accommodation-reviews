@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Accommodation Reviews</title>
-    <link rel="stylesheet" type="text/css" href="styles/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="styles/style.css">
+    <link rel="stylesheet" type="text/css" href="styles/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="styles/css/style.css">
 </head>
 <body>
     <div th:replace="~{fragments/nav}"></div>
@@ -17,6 +17,10 @@
             <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
         </p>
     </div>
+
+    <th:block th:each="capital : ${capitals}" th:object="${capital}">
+        <h3 class="text-center" th:text="|Name: *{name}, Latitude: *{latitude}, Longitude: *{longitude}|"></h3>
+    </th:block>
 
     <h1>POST WITH CAPTCHA</h1>
     <form method="post" action="/secured_with_captcha">

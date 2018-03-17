@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Accommodation</title>
+</head>
+<body>
+
+<form>
+    <label for="towns">Towns</label>
+    <select class="form control" id="towns" name="towns">
+        <th:block th:each="town : ${model.getTowns()}">
+            <option th:value="${town}" th:text="${town}"></option>
+        </th:block>
+    </select>
+</form>
+
+</body>
+</html>

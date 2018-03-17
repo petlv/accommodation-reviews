@@ -3,6 +3,7 @@ package org.softuni.accommodationreviews.controllers;
 import org.softuni.accommodationreviews.models.binding.CaptchaBindingModel;
 import org.softuni.accommodationreviews.models.ExcludeCaptcha;
 import org.softuni.accommodationreviews.services.AccommodationService;
+import org.softuni.accommodationreviews.services.TownService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +15,12 @@ import org.springframework.web.servlet.ModelAndView;
 public class HomeController {
 
     private AccommodationService accommodationService;
+    private TownService townService;
 
+    public HomeController(AccommodationService accommodationService, TownService townService) {
+        this.accommodationService = accommodationService;
+        this.townService = townService;
+    }
 
     @GetMapping("/")
     public ModelAndView index (ModelAndView modelAndView) {
@@ -28,10 +34,10 @@ public class HomeController {
         modelAndView.setViewName("index");
 
         if ((name.isEmpty())) {
-            modelAndView.addObject("accommodations", this.accommodationService.getAllListings());
+            modelAndView.addObject("towns", this.townService.getAllTowns());
         } else {
-            modelAndView.addObject("accommodations",
-                    this.accommodationService.getAccommodationsBySimilarName(name));
+            modelAndView.addObject("towns",
+                    this.townService.getByName(name));
         }
         return modelAndView;
     }

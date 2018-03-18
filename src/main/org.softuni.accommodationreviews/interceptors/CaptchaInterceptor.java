@@ -1,4 +1,4 @@
-package org.softuni.accommodationreviews.services;
+package org.softuni.accommodationreviews.interceptors;
 
 import org.softuni.accommodationreviews.models.ExcludeCaptcha;
 import org.springframework.http.HttpHeaders;

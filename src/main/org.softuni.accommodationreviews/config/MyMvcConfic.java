@@ -1,16 +1,12 @@
-package org.softuni.accommodationreviews.controllers;
+package org.softuni.accommodationreviews.config;
 
-import org.softuni.accommodationreviews.services.CaptchaInterceptor;
-import org.softuni.accommodationreviews.services.LogMessageInterceptor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class MyMvcConfic implements WebMvcConfigurer {
 
-    private final LogMessageInterceptor logMessageInterceptor;
+    /*private final LogMessageInterceptor logMessageInterceptor;
     private final CaptchaInterceptor captchaInterceptor;
 
     @Autowired
@@ -23,5 +19,5 @@ public class MyMvcConfic implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(this.logMessageInterceptor);
         registry.addInterceptor(this.captchaInterceptor);
-    }
+    }*/
 }

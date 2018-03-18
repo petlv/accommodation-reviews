@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Accommodation Reviews</title>
-    <link rel="stylesheet" type="text/css" href="styles/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="styles/css/style.css">
+    <th:block th:insert="~{fragments/head}"></th:block>
+    <title>Home</title>
 </head>
 <body>
-    <div th:replace="~{fragments/nav}"></div>
+    <nav th:replace="~{fragments/nav}"></nav>
     <div class="jumbotron">
         <h1 class="display-3" th:text="|Hello, ${message}| + '!'"></h1>
         <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>

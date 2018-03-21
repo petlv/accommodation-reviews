@@ -3,6 +3,7 @@ package org.softuni.accommodationreviews.entities;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -32,7 +33,11 @@ public class Tourist {
     @OneToMany(mappedBy = "commentTourist")
     private Set<Comment> touristComments;
 
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "tourists")
+    private Set<Role> roles;
+
     public Tourist() {
+        this.roles = new HashSet<>();
     }
 
     public String getId() {
@@ -81,5 +86,13 @@ public class Tourist {
 
     public void setTouristComments(Set<Comment> touristComments) {
         this.touristComments = touristComments;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

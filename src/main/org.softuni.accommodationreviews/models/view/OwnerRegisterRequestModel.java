@@ -1,6 +1,6 @@
 package org.softuni.accommodationreviews.models.view;
 
-public class TouristRegisterRequestModel {
+public class OwnerRegisterRequestModel {
 
     private String username;
     private String password;
@@ -38,5 +38,4 @@ public class TouristRegisterRequestModel {
     public void setEmail(String email) {
         this.email = email;
     }
-
 }

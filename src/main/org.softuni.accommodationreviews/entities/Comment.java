@@ -17,8 +17,8 @@ public class Comment {
     private String id;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "tourist_comments")
-    private Tourist commentTourist;
+    @JoinColumn(name = "user_comments")
+    private User commentUser;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "accommodation_comments")
@@ -35,12 +35,12 @@ public class Comment {
         this.id = id;
     }
 
-    public Tourist getCommentTourist() {
-        return commentTourist;
+    public User getCommentUser() {
+        return commentUser;
     }
 
-    public void setCommentTourist(Tourist commentTourist) {
-        this.commentTourist = commentTourist;
+    public void setCommentUser(User commentUser) {
+        this.commentUser = commentUser;
     }
 
     public Accommodation getCommentAccommodation() {

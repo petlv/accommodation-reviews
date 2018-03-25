@@ -2,16 +2,12 @@ package org.softuni.accommodationreviews.controllers;
 
 import org.softuni.accommodationreviews.models.ExcludeCaptcha;
 import org.softuni.accommodationreviews.models.binding.CaptchaBindingModel;
-import org.softuni.accommodationreviews.models.binding.UserBindingModel;
-import org.softuni.accommodationreviews.services.CheckOwnerOrTourist;
-import org.softuni.accommodationreviews.services.TouristService;
+import org.softuni.accommodationreviews.services.UserService;
 import org.softuni.accommodationreviews.services.TownService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,53 +15,18 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class HomeController {
 
-    //private AccommodationService accommodationService;
     private TownService townService;
-    private final CheckOwnerOrTourist checkOwnerOrTourist;
 
     @Autowired
-    public HomeController(TownService townService, TouristService touristService, CheckOwnerOrTourist
-            checkOwnerOrTourist) {
+    public HomeController(TownService townService, UserService userService) {
         this.townService = townService;
-        this.checkOwnerOrTourist = checkOwnerOrTourist;
     }
 
-    @GetMapping("/")
+    @GetMapping(value = {"/", "/home"})
     public ModelAndView index (ModelAndView modelAndView) {
         modelAndView.setViewName("/home/index");
-        modelAndView.addObject("message", "Pete");
+        //modelAndView.addObject("message", "Pete");
         return modelAndView;
-    }
-
-    @GetMapping("/register")
-    public ModelAndView register() {
-
-        return new ModelAndView("home/register");
-    }
-
-    @PostMapping("/register")
-    @PreAuthorize("isAnonymous()")
-    public ModelAndView register(@ModelAttribute UserBindingModel userModel,
-                                 @ModelAttribute("optionsRadios") String optionsRadios) {
-        this.checkOwnerOrTourist.register(userModel, optionsRadios);
-        return new ModelAndView("redirect:/login");
-    }
-
-    @GetMapping("/login")
-    @PreAuthorize("isAnonymous()")
-    public ModelAndView login(@RequestParam(required = false, name = "error") String error,
-                              @RequestParam(required = false, name = "logout") String logout,
-                              ModelAndView mav) {
-        mav.setViewName("home/login");
-        if (error != null) {
-            mav.addObject("error", error);
-        }
-
-        if (logout != null) {
-            mav.addObject("logout", logout);
-        }
-
-        return mav;
     }
 
     @GetMapping("/map")

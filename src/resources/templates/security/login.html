@@ -25,21 +25,10 @@
                         <label for="password">Password</label>
                         <input type="password" class="form-control" id="password" name="password" placeholder="Enter password"/>
                     </div>
-                    <fieldset class="form-group">
-                        <legend>Choose Role</legend>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="optionsRadios" id="owner" value="owner">
-                                Owner
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="optionsRadios" id="tourist" value="tourist">
-                                Tourist
-                            </label>
-                        </div>
-                    </fieldset>
+                    <div class="form-group">
+                        <label for="rememberMe">Remember Me</label>
+                        <input type="checkbox" name="remember" class="form-control" id="rememberMe" />
+                    </div>
                     <input type="hidden" th:name="${_csrf.parameterName}"
                            th:value="${_csrf.token}" />
                     <button type="submit" class="btn btn-primary">Login</button>

@@ -1,7 +1,5 @@
 package org.softuni.accommodationreviews.entities;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Set;
@@ -10,13 +8,14 @@ import java.util.Set;
 @Table(name = "accommodations")
 public class Accommodation {
     @Id
-    @GeneratedValue(generator = "UUID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    /*@GeneratedValue(generator = "UUID")
     @GenericGenerator(
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
-    )
+    )*/
     @Column(name = "id", updatable = false, nullable = false)
-    private String id;
+    private Long id;
 
     @Column(nullable = false, unique = true, length = 100)
     private String name;
@@ -24,11 +23,14 @@ public class Accommodation {
     @Column(nullable = false)
     private String description;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Owner accommodationOwner;
-
     @Column(nullable = false)
     private LocalDate validUntil;
+
+    private String photos;
+
+    @ManyToOne
+    @JoinColumn(name = "user_accommodations")
+    private User accommodationUser;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "commentAccommodation")
     private Set<Comment> accommodationComments;
@@ -41,11 +43,11 @@ public class Accommodation {
     public Accommodation() {
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -65,20 +67,28 @@ public class Accommodation {
         this.description = description;
     }
 
-    public Owner getAccommodationOwner() {
-        return accommodationOwner;
-    }
-
-    public void setAccommodationOwner(Owner accommodationOwner) {
-        this.accommodationOwner = accommodationOwner;
-    }
-
     public LocalDate getValidUntil() {
         return validUntil;
     }
 
     public void setValidUntil(LocalDate validUntil) {
         this.validUntil = validUntil;
+    }
+
+    public String getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(String photos) {
+        this.photos = photos;
+    }
+
+    public User getAccommodationUser() {
+        return accommodationUser;
+    }
+
+    public void setAccommodationUser(User accommodationUser) {
+        this.accommodationUser = accommodationUser;
     }
 
     public Set<Comment> getAccommodationComments() {

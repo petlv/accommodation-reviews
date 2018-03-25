@@ -41,11 +41,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
         .and().formLogin()
                 .loginPage("/login").permitAll()
+                .loginProcessingUrl("/login")
                 .usernameParameter("username").passwordParameter("password")
-                .successForwardUrl("/home")
+                .defaultSuccessUrl("/home")
                 .failureUrl("/error")
-        .and().userDetailsService(this.userDetailsService)
-                .logout().logoutUrl("/login?logout")
-                .logoutSuccessUrl("/login").permitAll();
+        .and()
+                .rememberMe()
+                .rememberMeParameter("remember")
+                .rememberMeCookieName("rememberMeCookie")
+                .key("48433e39-e610-4a2c-926c-f86d46f5360a")
+                .tokenValiditySeconds(100)
+                .userDetailsService(this.userDetailsService)
+        .and()
+                .logout().logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
+                .permitAll();
     }
 }

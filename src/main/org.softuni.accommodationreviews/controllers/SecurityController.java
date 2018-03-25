@@ -1,16 +1,60 @@
 package org.softuni.accommodationreviews.controllers;
 
+import org.softuni.accommodationreviews.models.binding.UserBindingModel;
+import org.softuni.accommodationreviews.services.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class SecurityController {
+
+    private final UserService userService;
+
+    public SecurityController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @GetMapping("/register")
+    public ModelAndView register(ModelAndView mav) {
+        mav.setViewName("security/register");
+        return mav;
+    }
+
+    @PostMapping("/register")
+    @PreAuthorize("isAnonymous()")
+    public ModelAndView registerConfirm(@ModelAttribute UserBindingModel userModel,
+                                 @ModelAttribute("optionsRadios") String optionsRadios,
+                                        ModelAndView mav) {
+        mav.setViewName("redirect:/login");
+
+        if(userModel.getPassword().equals(userModel.getConfirmPassword())) {
+            this.userService.register(userModel, optionsRadios);
+        } else {
+            mav.setViewName("redirect:/register");
+        }
+
+        return mav;
+    }
+
+    @GetMapping("/login")
+    @PreAuthorize("isAnonymous()")
+    public ModelAndView login(@RequestParam(required = false, name = "error") String error,
+                              @RequestParam(required = false, name = "logout") String logout,
+                              ModelAndView mav) {
+        mav.setViewName("security/login");
+        if (error != null) {
+            mav.addObject("error", error);
+        }
+
+        if (logout != null) {
+            mav.addObject("logout", logout);
+        }
+
+        return mav;
+    }
 
     @PostMapping("/logout")
     public ModelAndView logout(@RequestParam(required = false, name = "logout") String logout,
@@ -20,6 +64,13 @@ public class SecurityController {
         if(logout != null) redirectAttributes.addFlashAttribute("logout", logout);
 
         return modelAndView;
+    }
+
+    @GetMapping("/error")
+    public ModelAndView error(ModelAndView mav) {
+        mav.setViewName("security/error");
+
+        return mav;
     }
 
 

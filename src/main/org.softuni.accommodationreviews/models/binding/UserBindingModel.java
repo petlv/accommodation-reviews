@@ -10,6 +10,8 @@ public class UserBindingModel {
     @Size(min = 4, max = 35, message = "Length must be between 4 and 35 symbols")
     private String password;
 
+    private String confirmPassword;
+
     @Size(min = 4, max = 35, message = "Length must be between 4 and 35 symbols")
     private String fullName;
 
@@ -30,6 +32,14 @@ public class UserBindingModel {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 
     public String getFullName() {

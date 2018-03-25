@@ -5,10 +5,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "roles")
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     /*@GeneratedValue(generator = "UUID")
     @GenericGenerator(
             name = "UUID",
@@ -20,15 +21,11 @@ public class Role {
     @Column(nullable = false)
     private String name;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "ownerRoles")
-    private Set<Owner> owners;
-
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "touristRoles")
-    private Set<Tourist> tourists;
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userRoles")
+    private Set<User> roleUsers;
 
     public Role() {
-        this.owners = new HashSet<>();
-        this.tourists = new HashSet<>();
+        this.roleUsers = new HashSet<>();
     }
 
     public Long getId() {
@@ -47,19 +44,11 @@ public class Role {
         this.name = name;
     }
 
-    public Set<Owner> getOwners() {
-        return owners;
+    public Set<User> getRoleUsers() {
+        return roleUsers;
     }
 
-    public void setOwners(Set<Owner> owners) {
-        this.owners = owners;
-    }
-
-    public Set<Tourist> getTourists() {
-        return tourists;
-    }
-
-    public void setTourists(Set<Tourist> tourists) {
-        this.tourists = tourists;
+    public void setRoleUsers(Set<User> roleUsers) {
+        this.roleUsers = roleUsers;
     }
 }

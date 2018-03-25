@@ -5,10 +5,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "tourists")
-public class Tourist {
+@Table(name = "users")
+public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     /*@GeneratedValue(generator = "UUID")
     @GenericGenerator(
             name = "UUID",
@@ -29,14 +29,25 @@ public class Tourist {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @OneToMany(mappedBy = "commentTourist")
-    private Set<Comment> touristComments;
+    @Column(nullable = false)
+    private boolean isOwner;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accommodationUser")
+    private Set<Accommodation> userAccommodations;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "commentUser")
+    private Set<Comment> userComments;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> touristRoles;
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = { @JoinColumn(name = "users_id") },
+            inverseJoinColumns = { @JoinColumn(name = "roles_id") }
+    )
+    private Set<Role> userRoles;
 
-    public Tourist() {
-        this.touristRoles = new HashSet<>();
+    public User() {
+        this.userRoles = new HashSet<>();
     }
 
     public Long getId() {
@@ -79,19 +90,35 @@ public class Tourist {
         this.email = email;
     }
 
-    public Set<Comment> getTouristComments() {
-        return touristComments;
+    public boolean isOwner() {
+        return isOwner;
     }
 
-    public void setTouristComments(Set<Comment> touristComments) {
-        this.touristComments = touristComments;
+    public void setOwner(boolean owner) {
+        isOwner = owner;
     }
 
-    public Set<Role> getTouristRoles() {
-        return touristRoles;
+    public Set<Accommodation> getUserAccommodations() {
+        return userAccommodations;
     }
 
-    public void setTouristRoles(Set<Role> touristRoles) {
-        this.touristRoles = touristRoles;
+    public void setUserAccommodations(Set<Accommodation> userAccommodations) {
+        this.userAccommodations = userAccommodations;
+    }
+
+    public Set<Comment> getUserComments() {
+        return userComments;
+    }
+
+    public void setUserComments(Set<Comment> userComments) {
+        this.userComments = userComments;
+    }
+
+    public Set<Role> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(Set<Role> userRoles) {
+        this.userRoles = userRoles;
     }
 }

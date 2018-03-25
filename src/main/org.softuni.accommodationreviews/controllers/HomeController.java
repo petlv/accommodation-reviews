@@ -2,8 +2,7 @@ package org.softuni.accommodationreviews.controllers;
 
 import org.softuni.accommodationreviews.models.ExcludeCaptcha;
 import org.softuni.accommodationreviews.models.binding.CaptchaBindingModel;
-import org.softuni.accommodationreviews.models.view.OwnerRegisterRequestModel;
-import org.softuni.accommodationreviews.models.view.TouristRegisterRequestModel;
+import org.softuni.accommodationreviews.models.binding.UserBindingModel;
 import org.softuni.accommodationreviews.services.CheckOwnerOrTourist;
 import org.softuni.accommodationreviews.services.TouristService;
 import org.softuni.accommodationreviews.services.TownService;
@@ -46,16 +45,32 @@ public class HomeController {
 
     @PostMapping("/register")
     @PreAuthorize("isAnonymous()")
-    public ModelAndView register(@ModelAttribute TouristRegisterRequestModel touristModel,
-                                 @ModelAttribute OwnerRegisterRequestModel ownerModel,
+    public ModelAndView register(@ModelAttribute UserBindingModel userModel,
                                  @ModelAttribute("optionsRadios") String optionsRadios) {
-        this.checkOwnerOrTourist.register(touristModel, ownerModel, optionsRadios);
+        this.checkOwnerOrTourist.register(userModel, optionsRadios);
         return new ModelAndView("redirect:/login");
     }
 
     @GetMapping("/login")
-    public ModelAndView login() {
-        return new ModelAndView("home/login");
+    @PreAuthorize("isAnonymous()")
+    public ModelAndView login(@RequestParam(required = false, name = "error") String error,
+                              @RequestParam(required = false, name = "logout") String logout,
+                              ModelAndView mav) {
+        mav.setViewName("home/login");
+        if (error != null) {
+            mav.addObject("error", error);
+        }
+
+        if (logout != null) {
+            mav.addObject("logout", logout);
+        }
+
+        return mav;
+    }
+
+    @GetMapping("/map")
+    public ModelAndView map() {
+        return new ModelAndView("home/map");
     }
 
 

@@ -1,12 +1,10 @@
 package org.softuni.accommodationreviews.services;
 
-import org.softuni.accommodationreviews.models.view.OwnerRegisterRequestModel;
-import org.softuni.accommodationreviews.models.view.TouristRegisterRequestModel;
+import org.softuni.accommodationreviews.models.binding.UserBindingModel;
 
 public interface CheckOwnerOrTourist {
 
-    void register(TouristRegisterRequestModel touristModel, OwnerRegisterRequestModel ownerModel,
-                  String optionsRadios);
+    void register(UserBindingModel userModel, String optionsRadios);
 
     void login();
 

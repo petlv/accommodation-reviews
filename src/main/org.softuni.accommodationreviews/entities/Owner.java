@@ -1,7 +1,5 @@
 package org.softuni.accommodationreviews.entities;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,13 +8,14 @@ import java.util.Set;
 @Table(name = "owners")
 public class Owner {
     @Id
-    @GeneratedValue(generator = "UUID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    /*@GeneratedValue(generator = "UUID")
     @GenericGenerator(
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
-    )
+    )*/
     @Column(name = "id", updatable = false, nullable = false)
-    private String id;
+    private Long id;
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -33,18 +32,18 @@ public class Owner {
     @OneToOne(targetEntity = Accommodation.class)
     private Accommodation accommodation;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "owners")
-    private Set<Role> roles;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> ownerRoles;
 
     public Owner() {
-        this.roles = new HashSet<>();
+        this.ownerRoles = new HashSet<>();
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -88,11 +87,11 @@ public class Owner {
         this.accommodation = accommodation;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Set<Role> getOwnerRoles() {
+        return ownerRoles;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setOwnerRoles(Set<Role> ownerRoles) {
+        this.ownerRoles = ownerRoles;
     }
 }

@@ -2,7 +2,7 @@ package org.softuni.accommodationreviews.services;
 
 import org.softuni.accommodationreviews.entities.Owner;
 import org.softuni.accommodationreviews.entities.Role;
-import org.softuni.accommodationreviews.models.view.OwnerRegisterRequestModel;
+import org.softuni.accommodationreviews.models.binding.UserBindingModel;
 import org.softuni.accommodationreviews.repositories.OwnerRepository;
 import org.softuni.accommodationreviews.repositories.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -34,16 +35,24 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public Owner register(OwnerRegisterRequestModel model) {
+    public Owner register(UserBindingModel userModel) {
         Owner owner = new Owner();
-        owner.setUsername(model.getUsername());
-        owner.setPassword(this.passwordEncoder.encode(model.getPassword()));
-        owner.setFullName(model.getFullName());
-        owner.setEmail(model.getEmail());
+        owner.setUsername(userModel.getUsername());
+        owner.setPassword(this.passwordEncoder.encode(userModel.getPassword()));
+        owner.setFullName(userModel.getFullName());
+        owner.setEmail(userModel.getEmail());
 
-        Role role = this.roleRepository.findFirstByName("USER");
+        Role role = new Role();
+
+        if(this.roleRepository.findFirstByName("USER") == null) {
+            role.setName("OWNER");
+            role.setTourists(new HashSet<>());
+        } else {
+            role = this.roleRepository.findFirstByName("USER");
+        }
+
         role.getOwners().add(owner);
-        owner.getRoles().add(role);
+        owner.getOwnerRoles().add(role);
         this.roleRepository.save(role);
 
         return this.ownerRepository.saveAndFlush(owner);
@@ -57,8 +66,8 @@ public class OwnerServiceImpl implements OwnerService {
             throw new UsernameNotFoundException("Owner not found");
         }
 
-        Set<GrantedAuthority> roles = owner.getRoles()
-                .stream().map(r -> new SimpleGrantedAuthority(r.getName()))
+        Set<GrantedAuthority> roles = owner.getOwnerRoles()
+                .stream().map(r -> new SimpleGrantedAuthority("ROLE_" + r.getName()))
                 .collect(Collectors.toSet());
 
         UserDetails ownerDetails = new User(

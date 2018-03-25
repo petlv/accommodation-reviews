@@ -1,7 +1,5 @@
 package org.softuni.accommodationreviews.entities;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -9,12 +7,23 @@ import java.util.Set;
 @Entity
 public class Role {
 
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    /*@GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )*/
+    @Column(name = "id", updatable = false, nullable = false)
+    private Long id;
 
+    @Column(nullable = false)
     private String name;
 
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "ownerRoles")
     private Set<Owner> owners;
 
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "touristRoles")
     private Set<Tourist> tourists;
 
     public Role() {
@@ -22,18 +31,11 @@ public class Role {
         this.tourists = new HashSet<>();
     }
 
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
-    @Column(name = "id", updatable = false, nullable = false)
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -45,7 +47,6 @@ public class Role {
         this.name = name;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
     public Set<Owner> getOwners() {
         return owners;
     }

@@ -1,7 +1,5 @@
 package org.softuni.accommodationreviews.entities;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,13 +8,14 @@ import java.util.Set;
 @Table(name = "tourists")
 public class Tourist {
     @Id
-    @GeneratedValue(generator = "UUID")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    /*@GeneratedValue(generator = "UUID")
     @GenericGenerator(
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
-    )
+    )*/
     @Column(name = "id", updatable = false, nullable = false)
-    private String id;
+    private Long id;
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -33,18 +32,18 @@ public class Tourist {
     @OneToMany(mappedBy = "commentTourist")
     private Set<Comment> touristComments;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "tourists")
-    private Set<Role> roles;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> touristRoles;
 
     public Tourist() {
-        this.roles = new HashSet<>();
+        this.touristRoles = new HashSet<>();
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -88,11 +87,11 @@ public class Tourist {
         this.touristComments = touristComments;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Set<Role> getTouristRoles() {
+        return touristRoles;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setTouristRoles(Set<Role> touristRoles) {
+        this.touristRoles = touristRoles;
     }
 }

@@ -1,10 +1,19 @@
-package org.softuni.accommodationreviews.models.view;
+package org.softuni.accommodationreviews.models.binding;
 
-public class TouristRegisterRequestModel {
+import javax.validation.constraints.Size;
 
+public class UserBindingModel {
+
+    @Size(min = 4, max = 35, message = "Length must be between 4 and 35 symbols")
     private String username;
+
+    @Size(min = 4, max = 35, message = "Length must be between 4 and 35 symbols")
     private String password;
+
+    @Size(min = 4, max = 35, message = "Length must be between 4 and 35 symbols")
     private String fullName;
+
+    @Size(min = 4, max = 35, message = "Length must be between 4 and 35 symbols")
     private String email;
 
     public String getUsername() {

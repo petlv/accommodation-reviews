@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:insert="~{fragments/head}">fragment</th:block>
+    <title>Map</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/ammap/ammap.css}">
+    <script th:src="@{/ammap/ammap.js}" type="text/javascript"></script>
+    <script th:src="@{/ammap/maps/js/bulgariaHigh.js}" type="text/javascript"></script>
+    <script>
+        var map;
+
+        AmCharts.ready(function() {
+            map = new AmCharts.AmMap();
+
+
+            map.balloon.color = "#000000";
+
+            var dataProvider = {
+                mapVar: AmCharts.maps.bulgariaHigh,
+                getAreasFromMap:true
+            };
+
+            map.dataProvider = dataProvider;
+
+            map.areasSettings = {
+                autoZoom: true,
+                selectedColor: "#CC0000"
+            };
+
+            map.smallMap = new AmCharts.SmallMap();
+
+            map.write("mapdiv");
+
+        });
+    </script>
+</head>
+<body>
+<nav th:replace="~{fragments/nav}"></nav>
+
+<div class="container">
+
+    <div id="mapdiv" style="width: 800px; background-color:#EEEEEE; height: 500px;"></div>
+
+</div>
+</body>
+</html>

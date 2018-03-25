@@ -1,7 +1,6 @@
 package org.softuni.accommodationreviews.services;
 
-import org.softuni.accommodationreviews.models.view.OwnerRegisterRequestModel;
-import org.softuni.accommodationreviews.models.view.TouristRegisterRequestModel;
+import org.softuni.accommodationreviews.models.binding.UserBindingModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +17,12 @@ public class CheckOwnerOrTouristImpl implements CheckOwnerOrTourist {
     }
 
     @Override
-    public void register(TouristRegisterRequestModel touristModel, OwnerRegisterRequestModel ownerModel,
-                         String optionsRadios) {
+    public void register(UserBindingModel userModel, String optionsRadios) {
 
         if (optionsRadios.equals("tourist")) {
-            this.touristService.register(touristModel);
+            this.touristService.register(userModel);
         } else if (optionsRadios.equals("owner")) {
-            this.ownerService.register(ownerModel);
+            this.ownerService.register(userModel);
         }
     }
 

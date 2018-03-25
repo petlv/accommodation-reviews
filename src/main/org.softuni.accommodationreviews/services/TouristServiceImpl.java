@@ -2,7 +2,7 @@ package org.softuni.accommodationreviews.services;
 
 import org.softuni.accommodationreviews.entities.Role;
 import org.softuni.accommodationreviews.entities.Tourist;
-import org.softuni.accommodationreviews.models.view.TouristRegisterRequestModel;
+import org.softuni.accommodationreviews.models.binding.UserBindingModel;
 import org.softuni.accommodationreviews.repositories.RoleRepository;
 import org.softuni.accommodationreviews.repositories.TouristRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -36,19 +37,27 @@ public class TouristServiceImpl implements TouristService {
     }
 
     @Override
-    public Tourist register(TouristRegisterRequestModel model) {
+    public Tourist register(UserBindingModel model) {
         Tourist tourist = new Tourist();
         tourist.setUsername(model.getUsername());
         tourist.setPassword(this.passwordEncoder.encode(model.getPassword()));
         tourist.setFullName(model.getFullName());
         tourist.setEmail(model.getEmail());
 
-        Role role = this.roleRepository.findFirstByName("USER");
+        Role role = new Role();
+
+        if (this.roleRepository.findFirstByName("TOURIST") == null) {
+            role.setName("TOURIST");
+            role.setTourists(new HashSet<>());
+        } else {
+            role = this.roleRepository.findFirstByName("TOURIST");
+        }
+
         role.getTourists().add(tourist);
-        tourist.getRoles().add(role);
+        tourist.getTouristRoles().add(role);
         this.roleRepository.save(role);
 
-        return this.touristRepository.saveAndFlush(tourist);
+        return this.touristRepository.save(tourist);
     }
 
     @Override
@@ -59,11 +68,12 @@ public class TouristServiceImpl implements TouristService {
             throw new UsernameNotFoundException("Tourist not found");
         }
 
-        Set<GrantedAuthority> roles = tourist.getRoles()
-                .stream().map(r -> new SimpleGrantedAuthority(r.getName()))
+        Set<GrantedAuthority> roles = tourist.getTouristRoles()
+                .stream().map(r -> new SimpleGrantedAuthority("ROLE_" + r.getName()))
                 .collect(Collectors.toSet());
 
-        UserDetails touristDetails = new User(
+        UserDetails touristDetails;
+        touristDetails = new User(
                 tourist.getUsername(),
                 tourist.getPassword(),
                 roles

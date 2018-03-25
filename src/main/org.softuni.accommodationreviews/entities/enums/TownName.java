@@ -15,5 +15,10 @@ public enum TownName {
     SUNNY_BEACH,
     VARNA,
     ZHERAVNA,
-    ZLATOGRAD
+    ZLATOGRAD;
+
+    public TownName parseFromString(String town) {
+        return TownName.valueOf(town.toUpperCase());
+    }
+
 }

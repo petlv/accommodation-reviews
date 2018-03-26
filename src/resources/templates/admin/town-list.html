@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:insert="~{fragments/head}"></th:block>
+    <title>Show Towns</title>
+</head>
+<body>
+<nav th:replace="~{fragments/nav}"></nav>
+
+<div class="container">
+    <form th:action="@{/admin/town-add}" th:method="GET">
+        <button type="submit" class="btn btn-info">Add Town</button>
+    </form>
+</div>
+
+</body>
+</html>

@@ -17,7 +17,7 @@ public class AccommodationController {
         mav.setViewName("add-accommodation");
 
         AddAccommodationViewModel viewModel = new AddAccommodationViewModel();
-        for (TownServiceModel townServiceModel : this.townService.getAllTowns()) {
+        for (TownBindingModel townServiceModel : this.townService.getAllTowns()) {
             viewModel.getTowns().add(townServiceModel.getName());
         }
 

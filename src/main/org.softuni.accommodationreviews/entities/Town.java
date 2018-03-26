@@ -1,26 +1,24 @@
 package org.softuni.accommodationreviews.entities;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.softuni.accommodationreviews.entities.enums.TownName;
-
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "towns")
 public class Town {
     @Id
-    @GeneratedValue(generator = "UUID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    /*@GeneratedValue(generator = "UUID")
     @GenericGenerator(
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
-    )
+    )*/
     @Column(name = "id", updatable = false, nullable = false)
-    private String id;
+    private Long id;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false, unique = true)
-    private TownName name;
+    private String title;
 
     @Column(nullable = false)
     private Double latitude;
@@ -32,22 +30,23 @@ public class Town {
     private Set<Accommodation> townAccommodations;
 
     public Town() {
+        this.townAccommodations = new HashSet<>();
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public TownName getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(TownName name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Double getLatitude() {

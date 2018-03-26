@@ -1,6 +1,7 @@
 package org.softuni.accommodationreviews.services;
 
-import org.softuni.accommodationreviews.models.service.TownServiceModel;
+import org.softuni.accommodationreviews.entities.Town;
+import org.softuni.accommodationreviews.models.binding.TownBindingModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,9 +9,11 @@ import java.util.List;
 @Service
 public interface TownService {
 
-    List<TownServiceModel> getAllTowns();
+    List<TownBindingModel> getAllTowns();
 
-    TownServiceModel getByName(String name);
+    TownBindingModel getByName(String name);
+
+    Town addTown(TownBindingModel townModel);
 
 
 }

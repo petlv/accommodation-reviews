@@ -1,19 +1,19 @@
-package org.softuni.accommodationreviews.models.service;
+package org.softuni.accommodationreviews.models.binding;
 
-public class TownServiceModel {
+public class TownBindingModel {
 
-    private String name;
+    private String title;
 
     private Double latitude;
 
     private Double longitude;
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Double getLatitude() {

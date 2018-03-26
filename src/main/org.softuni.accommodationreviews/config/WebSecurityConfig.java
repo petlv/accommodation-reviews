@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] PERMITTED_ROUTES = {
-            "/", "/register", "/map"
+            "/", "/register", "/map", "/admin/**"
     };
 
     private final UserDetailsService userDetailsService;
@@ -29,7 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-                .antMatchers("/css/**", "/js/**", "/ammap/**");
+                .antMatchers("/css/**", "/js/**", "/ammap/**", "/json/**");
     }
 
     @Override
@@ -37,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers(PERMITTED_ROUTES).permitAll()
-                .antMatchers("/admin/**").hasRole("ADMIN")
+                //.antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
         .and().formLogin()
                 .loginPage("/login").permitAll()

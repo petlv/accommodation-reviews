@@ -9,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-public class SecurityController {
+public class SecurityController extends BaseController {
 
     private final UserService userService;
 
@@ -26,17 +26,14 @@ public class SecurityController {
     @PostMapping("/register")
     @PreAuthorize("isAnonymous()")
     public ModelAndView registerConfirm(@ModelAttribute UserBindingModel userModel,
-                                 @ModelAttribute("optionsRadios") String optionsRadios,
-                                        ModelAndView mav) {
-        mav.setViewName("redirect:/login");
+                                 @ModelAttribute("optionsRadios") String optionsRadios) {
 
         if(userModel.getPassword().equals(userModel.getConfirmPassword())) {
             this.userService.register(userModel, optionsRadios);
         } else {
-            mav.setViewName("redirect:/register");
+            return this.redirect("/register");
         }
-
-        return mav;
+        return this.redirect("/login");
     }
 
     @GetMapping("/login")

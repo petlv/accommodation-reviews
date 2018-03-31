@@ -11,6 +11,25 @@
     <form th:action="@{/admin/town-add}" th:method="GET">
         <button type="submit" class="btn btn-info">Add Town</button>
     </form>
+    <div>
+        <h1 class="text-center mt-3">All Towns</h1>
+        <table class="table mt-5">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="town,iter : ${towns}">
+                <tr>
+                    <th scope="row" th:text="${iter.index + 1}"></th>
+                    <td th:text="${town.getTitle()}"></td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 </body>

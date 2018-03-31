@@ -2,8 +2,8 @@ package org.softuni.accommodationreviews.controllers;
 
 import org.softuni.accommodationreviews.models.ExcludeCaptcha;
 import org.softuni.accommodationreviews.models.binding.CaptchaBindingModel;
-import org.softuni.accommodationreviews.services.UserService;
 import org.softuni.accommodationreviews.services.TownService;
+import org.softuni.accommodationreviews.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class HomeController {
+public class HomeController extends BaseController {
 
     private TownService townService;
 
@@ -23,10 +23,9 @@ public class HomeController {
     }
 
     @GetMapping(value = {"/", "/home"})
-    public ModelAndView index (ModelAndView modelAndView) {
-        modelAndView.setViewName("/home/index");
-        //modelAndView.addObject("message", "Pete");
-        return modelAndView;
+    public ModelAndView index() {
+        //return this.view("home/index", "personName", "Pete");
+        return this.view("home/index");
     }
 
     @GetMapping("/map")

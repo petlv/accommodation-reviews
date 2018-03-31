@@ -5,42 +5,60 @@
     <title>Map</title>
     <link rel="stylesheet" type="text/css" th:href="@{/ammap/ammap.css}">
     <script th:src="@{/ammap/ammap.js}" type="text/javascript"></script>
-    <script th:src="@{/ammap/maps/js/bulgariaHigh.js}" type="text/javascript"></script>
-    <script>
-        var map;
+    <script th:src="@{/ammap/maps/js/usaLow.js}" type="text/javascript"></script>
+    <script th:src="@{/js/light.js}" type="text/javascript"></script>
+    <script th:src="@{/js/dataloader.min.js}" type="text/javascript"></script>
 
+    <script>
+        var map = AmCharts.makeChart( "chartdiv", {
+            "type": "map",
+            "theme": "light",
+            "colorSteps": 10,
+
+            "dataLoader": {
+                "url": "http://localhost:8000/json/test-usa.json",
+                "format": "json",
+                "showErrors": true
+            },
+
+            "areasSettings": {
+                "autoZoom": true
+            },
+
+            "valueLegend": {
+                "right": 10,
+                "minValue": "little",
+                "maxValue": "a lot!"
+            }
+
+        } );
+
+        /*var map;
         AmCharts.ready(function() {
             map = new AmCharts.AmMap();
-
-
             map.balloon.color = "#000000";
-
             var dataProvider = {
                 mapVar: AmCharts.maps.bulgariaHigh,
                 getAreasFromMap:true
             };
-
             map.dataProvider = dataProvider;
-
             map.areasSettings = {
                 autoZoom: true,
                 selectedColor: "#CC0000"
             };
-
             map.smallMap = new AmCharts.SmallMap();
-
             map.write("mapdiv");
-
-        });
+        });*/
     </script>
 </head>
 <body>
-<nav th:replace="~{fragments/nav}"></nav>
+    <nav th:replace="~{fragments/nav}"></nav>
 
-<div class="container">
+    <div class="container">
+        <div id="chartdiv"></div>
+        <!--<div id="mapdiv" style="width: 800px; background-color:#EEEEEE; height: 500px;"></div>-->
+        <p>Sample text</p>
 
-    <div id="mapdiv" style="width: 800px; background-color:#EEEEEE; height: 500px;"></div>
-
-</div>
+    </div>
 </body>
 </html>

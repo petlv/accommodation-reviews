@@ -1,10 +1,13 @@
 package org.softuni.accommodationreviews.controllers;
 
-/*@Controller
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
 @RequestMapping("/accommodation")
 public class AccommodationController {
 
-    private AccommodationService accommodationService;
+    /*private AccommodationService accommodationService;
     private TownService townService;
 
     public AccommodationController(AccommodationService accommodationService, TownService townService) {
@@ -24,6 +27,6 @@ public class AccommodationController {
         mav.addObject("model", viewModel);
 
         return mav;
-    }
+    }*/
 
-}*/
+}

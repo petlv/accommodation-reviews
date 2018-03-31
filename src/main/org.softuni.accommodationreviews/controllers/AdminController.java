@@ -1,6 +1,7 @@
 package org.softuni.accommodationreviews.controllers;
 
 import org.softuni.accommodationreviews.models.binding.TownBindingModel;
+import org.softuni.accommodationreviews.repositories.TownRepository;
 import org.softuni.accommodationreviews.services.JsonWriter;
 import org.softuni.accommodationreviews.services.TownService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,10 +16,12 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/admin")
 public class AdminController {
 
+    private final TownRepository townRepository;
     private final TownService townService;
     private final JsonWriter jsonWriter;
 
-    public AdminController(TownService townService, JsonWriter jsonWriter) {
+    public AdminController(TownRepository townRepository, TownService townService, JsonWriter jsonWriter) {
+        this.townRepository = townRepository;
         this.townService = townService;
         this.jsonWriter = jsonWriter;
     }
@@ -27,6 +30,8 @@ public class AdminController {
     @PreAuthorize("isAnonymous()")
     public ModelAndView showTowns (ModelAndView mav) {
         mav.setViewName("admin/town-list");
+        mav.addObject("towns", this.townRepository.findAll());
+
         return mav;
     }
 

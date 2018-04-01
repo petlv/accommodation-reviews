@@ -30,7 +30,12 @@ public class HomeController extends BaseController {
 
     @GetMapping("/map")
     public ModelAndView map() {
-        return new ModelAndView("home/map");
+        return this.view("home/map");
+    }
+
+    @GetMapping("/test")
+    public ModelAndView test() {
+        return this.view("home/test");
     }
 
 

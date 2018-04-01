@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] PERMITTED_ROUTES = {
-            "/", "/register", "/map", "/admin/**"
+            "/", "/register", "/map", "/test", "/admin/**"
     };
 
     private final UserDetailsService userDetailsService;

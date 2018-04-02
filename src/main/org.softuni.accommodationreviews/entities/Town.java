@@ -1,5 +1,7 @@
 package org.softuni.accommodationreviews.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,6 +28,7 @@ public class Town {
     @Column(nullable = false)
     private Double longitude;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accommodationTown")
     private Set<Accommodation> townAccommodations;
 

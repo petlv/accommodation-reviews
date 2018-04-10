@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] PERMITTED_ROUTES = {
-            "/", "/register", "/map", "/test", "/admin/**"
+            "/", "/register", "/map", "/test", "/asd", "/images", "/admin/**"
     };
 
     private final UserDetailsService userDetailsService;
@@ -29,7 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-                .antMatchers("/css/**", "/js/**", "/ammap/**", "/json/**");
+                .antMatchers("/css/**", "/js/**", "/ammap/**", "/json/**", "/images/**");
     }
 
     @Override

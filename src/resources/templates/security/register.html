@@ -10,7 +10,8 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="form-holder text-center">
-            <form method="post">
+            <!--/*@thymesVar id="registerInput" type="java"*/-->
+            <form th:method="POST" th:object="${registerInput}">
                 <fieldset>
                     <legend>Register</legend>
                     <div class="form-group">
@@ -57,9 +58,31 @@
                     </fieldset>
                     <input type="hidden" th:name="${_csrf.parameterName}"
                            th:value="${_csrf.token}" />
-                    <button type="submit" class="btn btn-primary">Register</button>
+                    <button type="submit" id="buttonRegister" class="btn btn-primary">Register</button>
                 </fieldset>
             </form>
+
+            <div th:each="error : ${#fields.allErrors()}">
+                <script th:inline="javascript">
+                    /*<![CDATA[*/
+
+                    var error = [[${error}]];
+                    new Noty({
+                        text: 'ERROR: ' + error,
+                        layout: 'topCenter',
+                        type: 'error',
+                        theme: 'mint',
+                        timeout: 3000
+                    }).show()
+
+                    /*]]>*/
+                </script>
+
+                    <!--<th:block th:fragment="script">
+                        <script th:src="@{/js/notyscript.js}"></script>
+                    </th:block>-->
+            </div>
+
         </div>
     </div>
 </div>

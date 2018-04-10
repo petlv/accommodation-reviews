@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:insert="~{fragments/head}"></th:block>
+    <title>Error 404</title>
+</head>
+<body>
+<nav th:replace="~{fragments/nav}"></nav>
+
+<div class="container">
+    <h1>Error 404 - page not found!</h1>
+    <img th:src="@{/images/image404.jpg}" height="417" width="730"/>
+</div>
+
+</body>
+</html>

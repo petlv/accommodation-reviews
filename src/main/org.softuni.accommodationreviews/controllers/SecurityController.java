@@ -4,9 +4,13 @@ import org.softuni.accommodationreviews.models.binding.UserBindingModel;
 import org.softuni.accommodationreviews.services.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.validation.Valid;
 
 @Controller
 public class SecurityController extends BaseController {
@@ -18,15 +22,28 @@ public class SecurityController extends BaseController {
     }
 
     @GetMapping("/register")
-    public ModelAndView register(ModelAndView mav) {
-        mav.setViewName("security/register");
-        return mav;
+    public ModelAndView register(Model model) {
+
+        if(!model.containsAttribute("registerInput")) {
+            model.addAttribute("registerInput", new UserBindingModel());
+        }
+
+        return this.view("security/register");
     }
 
     @PostMapping("/register")
     @PreAuthorize("isAnonymous()")
-    public ModelAndView registerConfirm(@ModelAttribute UserBindingModel userModel,
-                                 @ModelAttribute("optionsRadios") String optionsRadios) {
+    public ModelAndView registerConfirm(@Valid @ModelAttribute(name = "registerInput")
+                                                    UserBindingModel userModel,
+                                        @ModelAttribute("optionsRadios") String optionsRadios,
+                                        BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+        if(bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult" +
+                    ".registerInput", bindingResult);
+            redirectAttributes.addFlashAttribute("registerInput", userModel);
+            return this.redirect("/register");
+        }
 
         if(userModel.getPassword().equals(userModel.getConfirmPassword())) {
             this.userService.register(userModel, optionsRadios);

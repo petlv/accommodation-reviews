@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:insert="~{fragments/head}">head</th:block>
+    <title>Home</title>
+</head>
+<body>
+    <nav th:replace="~{fragments/nav}"></nav>
+    <div class="container-fluid">
+        <main>
+            <table class="table">
+                <thead>
+                <tr class="row">
+                    <th class="col-md-8" scope="col">Name</th>
+                    <th class="col-md-3" scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!--/*@thymesVar id="imageData" type=""*/-->
+                <th:block th:each="image : ${imageData}">
+                    <tr class="row" th:classappend=" ${image.getId()}">
+                        <td class="col-md-3" th:text="${image.getName()}"></td>
+                        <td class="col-md-3">
+                            <button class="btn btn-secondary" th:onclick="'showImage(\'' + ${image.getId()} + '\');'">Show
+                            </button>
+                            <button class="btn btn-secondary" th:onclick="'hideImage(\'' + ${image.getId()} + '\');'"
+                                    style="display: none">Hide
+                            </button>
+                        </td>
+                        <td class="col-md-6" style="display: none">
+                            <img th:src="${image.getUrl()}" class="img-thumbnail" width="200" height="200">
+                        </td>
+                    </tr>
+                </th:block>
+                </tbody>
+            </table>
+        </main>
+        <form class="form" enctype="multipart/form-data" th:action="@{/images}" method="POST">
+            <div class="form-group">
+                <input type="file" class="form-control col-md-6" name="file">
+                <button class="btn btn-secondary col-md-4">Upload File</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        function showImage(imageId) {
+            $($($('.' + imageId).children()[1]).children()[0]).hide();
+            $($($('.' + imageId).children()[1]).children()[1]).show();
+            $($('.' + imageId).children()[2]).show();
+        }
+
+        function hideImage(imageId) {
+            $($('.' + imageId).children()[2]).hide();
+            $($($('.' + imageId).children()[1]).children()[1]).hide();
+            $($($('.' + imageId).children()[1]).children()[0]).show();
+        }
+    </script>
+</body>
+</html>

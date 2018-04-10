@@ -17,7 +17,7 @@ public class GlobalExceptionController extends BaseController {
                 ? e.getClass().getAnnotation(ResponseStatus.class).reason()
                 : DEFAULT_ERROR_MESSAGE;
 
-        return this.view("errors/error-message", "error", UserNotFoundException.class
+        return this.view("error/error-message", "error", UserNotFoundException.class
                 .getAnnotation(ResponseStatus.class).reason());
     }
 

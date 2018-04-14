@@ -1,7 +1,7 @@
 package org.softuni.accommodationreviews.controllers;
 
-import org.softuni.accommodationreviews.models.binding.UserBindingModel;
-import org.softuni.accommodationreviews.services.UserService;
+import org.softuni.accommodationreviews.areas.users.UserBindingModel;
+import org.softuni.accommodationreviews.areas.users.services.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

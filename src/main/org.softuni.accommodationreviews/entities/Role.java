@@ -1,5 +1,7 @@
 package org.softuni.accommodationreviews.entities;
 
+import org.softuni.accommodationreviews.areas.users.User;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;

@@ -1,6 +1,8 @@
 package org.softuni.accommodationreviews.entities;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.softuni.accommodationreviews.areas.accommodations.Accommodation;
+import org.softuni.accommodationreviews.areas.users.User;
 
 import javax.persistence.*;
 

@@ -1,12 +1,12 @@
 package org.softuni.accommodationreviews.controllers;
 
-import org.softuni.accommodationreviews.cloud.CloudImageExtractor;
-import org.softuni.accommodationreviews.cloud.CloudImageUploader;
+import org.softuni.accommodationreviews.areas.cloud.CloudImageExtractor;
+import org.softuni.accommodationreviews.areas.cloud.CloudImageUploader;
 import org.softuni.accommodationreviews.models.ExcludeCaptcha;
 import org.softuni.accommodationreviews.models.binding.CaptchaBindingModel;
 import org.softuni.accommodationreviews.models.service.Image;
-import org.softuni.accommodationreviews.services.TownService;
-import org.softuni.accommodationreviews.services.UserService;
+import org.softuni.accommodationreviews.areas.towns.services.TownService;
+import org.softuni.accommodationreviews.areas.users.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

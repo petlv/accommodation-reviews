@@ -1,53 +1,29 @@
-package org.softuni.accommodationreviews.areas.accommodations;
+package org.softuni.accommodationreviews.areas.accommodations.models;
 
-import org.softuni.accommodationreviews.entities.Comment;
 import org.softuni.accommodationreviews.areas.towns.Town;
 import org.softuni.accommodationreviews.areas.users.User;
+import org.softuni.accommodationreviews.entities.Comment;
 
-import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-@Table(name = "accommodations")
-public class Accommodation {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    /*@GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )*/
-    @Column(name = "id", updatable = false, nullable = false)
+public class AccommodationServiceModel {
+
     private Long id;
 
-    @Column(nullable = false, unique = true, length = 100)
     private String name;
 
-    @Column(nullable = false)
     private String description;
 
-    @Column
     private LocalDate validUntil;
 
     private String photo;
 
-    @ManyToOne
-    @JoinColumn(name = "user_accommodations")
     private User accommodationUser;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "commentAccommodation")
     private Set<Comment> accommodationComments;
 
-    @ManyToOne
-    @JoinColumn(name = "town_accommodations")
     private Town accommodationTown;
-
-
-    public Accommodation() {
-        this.accommodationComments = new HashSet<>();
-    }
 
     public Long getId() {
         return id;

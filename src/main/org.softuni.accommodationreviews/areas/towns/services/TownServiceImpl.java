@@ -3,8 +3,9 @@ package org.softuni.accommodationreviews.areas.towns.services;
 
 import org.modelmapper.ModelMapper;
 import org.softuni.accommodationreviews.areas.towns.Town;
-import org.softuni.accommodationreviews.areas.towns.models.TownBindingModel;
 import org.softuni.accommodationreviews.areas.towns.TownRepository;
+import org.softuni.accommodationreviews.areas.towns.models.TownBindingModel;
+import org.softuni.accommodationreviews.areas.towns.models.TownServiceModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,26 +27,38 @@ public class TownServiceImpl implements TownService {
     }
 
     @Override
-    public Town addTown(TownBindingModel townModel) {
+    public void addTown(TownBindingModel townModel) {
         Town town = this.mapper.map(townModel, Town.class);
-        return this.townRepository.save(town);
+        this.townRepository.save(town);
     }
 
     @Override
-    public List<TownBindingModel> getAllTowns() {
+    public List<TownServiceModel> getAllTowns() {
         ModelMapper modelMapper = new ModelMapper();
 
         return this.townRepository
                 .findAll()
                 .stream()
-                .map(x -> modelMapper.map(x, TownBindingModel.class))
+                .map(x -> modelMapper.map(x, TownServiceModel.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public TownBindingModel getByName(String name) {
+    public List<TownServiceModel> getTownsBySimilarName(String name) {
         ModelMapper modelMapper = new ModelMapper();
 
-        return modelMapper.map(this.townRepository.findByTitle(name), TownBindingModel.class);
+        return this.townRepository
+                .findAll()
+                .stream()
+                .filter(x -> x.getTitle().contains(name))
+                .map(x -> modelMapper.map(x, TownServiceModel.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public TownServiceModel getByName(String name) {
+        ModelMapper modelMapper = new ModelMapper();
+
+        return modelMapper.map(this.townRepository.findByTitle(name), TownServiceModel.class);
     }
 }

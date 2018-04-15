@@ -45,7 +45,7 @@ public class AdminController extends BaseController {
     @PreAuthorize("isAnonymous()")
     public ModelAndView addTownConfirm (@ModelAttribute TownBindingModel townModel) {
 
-        //this.townService.addTown(townModel);
+        this.townService.addTown(townModel);
         this.townWriterToJson.writeTownsInJson();
 
         return this.redirect("/");

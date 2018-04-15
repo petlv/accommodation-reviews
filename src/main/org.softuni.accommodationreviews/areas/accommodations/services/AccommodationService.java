@@ -1,17 +1,19 @@
 package org.softuni.accommodationreviews.areas.accommodations.services;
 
 import org.softuni.accommodationreviews.areas.accommodations.models.AccommodationBindingModel;
-import org.softuni.accommodationreviews.models.service.AccommodationServiceModel;
-
-import java.util.List;
 
 public interface AccommodationService {
 
-    List<AccommodationServiceModel> getAllListings();
+    List<VirusServiceModel> getAllAccommodations();
 
-    List<AccommodationServiceModel> getAccommodationsBySimilarName(String name);
+    VirusServiceModel getById(String id);
 
-    AccommodationServiceModel getByName(String name);
+    void createAccommodation(AccommodationBindingModel accommodation);
 
-    void createAccommodation(AccommodationBindingModel accommodationBindingModel);
+    void editAccommodation(String id, AccommodationBindingModel accommodation);
+
+    void deleteAccommodation(String id);
+
+    String getMap();
+
 }

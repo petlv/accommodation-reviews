@@ -1,18 +1,21 @@
 package org.softuni.accommodationreviews.areas.users;
 
 import org.softuni.accommodationreviews.areas.accommodations.Accommodation;
-import org.softuni.accommodationreviews.entities.Comment;
-import org.softuni.accommodationreviews.entities.Role;
+import org.softuni.accommodationreviews.areas.comments.Comment;
+import org.softuni.accommodationreviews.areas.roles.Role;
 import org.softuni.accommodationreviews.listeners.PasswordChangedListener;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
 @EntityListeners(PasswordChangedListener.class)
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     /*@GeneratedValue(generator = "UUID")
@@ -50,10 +53,19 @@ public class User {
             joinColumns = { @JoinColumn(name = "users_id") },
             inverseJoinColumns = { @JoinColumn(name = "roles_id") }
     )
-    private Set<Role> userRoles;
+    private Set<Role> authorities;
+
+    private boolean isAccountNonExpired;
+
+    private boolean isAccountNonLocked;
+
+    private boolean isCredentialsNonExpired;
+
+    private boolean isEnabled;
+
 
     public User() {
-        this.userRoles = new HashSet<>();
+        this.authorities = new HashSet<>();
     }
 
     public Long getId() {
@@ -64,6 +76,7 @@ public class User {
         this.id = id;
     }
 
+    @Override
     public String getUsername() {
         return username;
     }
@@ -72,6 +85,7 @@ public class User {
         this.username = username;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
@@ -120,11 +134,52 @@ public class User {
         this.userComments = userComments;
     }
 
-    public Set<Role> getUserRoles() {
-        return userRoles;
+    public Set<Role> getSimpleAuthorities() {
+        return this.authorities;
     }
 
-    public void setUserRoles(Set<Role> userRoles) {
-        this.userRoles = userRoles;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.authorities;
+    }
+
+    public void setAuthorities(Set<Role> authorities) {
+        this.authorities = authorities;
+    }
+
+    public void setAccountNonExpired(boolean accountNonExpired) {
+        isAccountNonExpired = accountNonExpired;
+    }
+
+    public void setAccountNonLocked(boolean accountNonLocked) {
+        isAccountNonLocked = accountNonLocked;
+    }
+
+    public void setCredentialsNonExpired(boolean credentialsNonExpired) {
+        isCredentialsNonExpired = credentialsNonExpired;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return this.isAccountNonExpired;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return this.isAccountNonLocked;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return this.isCredentialsNonExpired;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return this.isEnabled;
     }
 }

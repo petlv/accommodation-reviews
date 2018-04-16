@@ -2,7 +2,6 @@ package org.softuni.accommodationreviews.areas.accommodations.models;
 
 import org.softuni.accommodationreviews.areas.towns.Town;
 import org.softuni.accommodationreviews.areas.users.User;
-import org.softuni.accommodationreviews.entities.Comment;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -21,7 +20,7 @@ public class AccommodationServiceModel {
 
     private User accommodationUser;
 
-    private Set<Comment> accommodationComments;
+    private Set<Long> accommodationComments;
 
     private Town accommodationTown;
 
@@ -73,11 +72,11 @@ public class AccommodationServiceModel {
         this.accommodationUser = accommodationUser;
     }
 
-    public Set<Comment> getAccommodationComments() {
+    public Set<Long> getAccommodationComments() {
         return accommodationComments;
     }
 
-    public void setAccommodationComments(Set<Comment> accommodationComments) {
+    public void setAccommodationComments(Set<Long> accommodationComments) {
         this.accommodationComments = accommodationComments;
     }
 

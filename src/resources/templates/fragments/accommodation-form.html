@@ -1,0 +1,47 @@
+<th:block th:fragment="accommodation-form">
+    <form class="mt-4" th:action="|@{'/accommodation/' + ${formMode} + ${formMode.equals('edit') || formMode.equals('delete') ? ('/' + accommodationViewModel.getId()) : ('')}}|" th:method="POST" th:object="${accommodationInput}">
+        <div class="form-group" th:classappend="${#fields.hasErrors('name')} ? 'has-danger'">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" th:field="*{name}" th:value="${accommodationInput.getName()}" id="name"
+                   name="name" th:disabled="${formMode.equals('delete')}"/>
+            <th:block th:each="error : ${#fields.errors('name')}">
+                <small class="text-danger"
+                       th:text="${error}"></small>
+            </th:block>
+
+        </div>
+        <div class="form-group" th:classappend="${#fields.hasErrors('description')} ? 'has-danger'">
+            <label for="description">Description</label>
+            <textarea style="resize: none;" class="form-control" th:text="${accommodationInput.getDescription()}"
+                      id="description" name="description"
+                      rows="3" th:disabled="${formMode.equals('delete')}"></textarea>
+            <th:block th:each="error : ${#fields.errors('description')}">
+                <small class="text-danger"
+                       th:text="${error}"></small>
+            </th:block>
+        </div>
+        <div class="form-group" th:classappend="${#fields.hasErrors('accommodationUser')} ? 'has-danger'">
+            <label for="accommodationUser">Owner</label>
+            <input type="text" class="form-control" th:value="${accommodationInput.getAccommodationUser()}" id="accommodationUser"
+                   name="accommodationUser" th:disabled="${formMode.equals('delete')}"/>
+            <th:block th:each="error : ${#fields.errors('accommodationUser')}">
+                <small class="text-danger"
+                       th:text="${error}"></small>
+            </th:block>
+        </div>
+        <div class="form-group" th:classappend="${#fields.hasErrors('validUntil')} ? 'has-danger'">
+            <label for="validUntil">Valid Until</label>
+            <input class="form-control" type="date" th:value="${accommodationInput.getValidUntil()}" id="validUntil"
+                   name="validUntil" th:disabled="${formMode.equals('delete')}"/>
+            <th:block th:each="error : ${#fields.errors('validUntil')}">
+                <small class="text-danger"
+                       th:text="${error}"></small>
+            </th:block>
+        </div>
+        <div class="d-flex justify-content-around mb-4">
+            <button type="submit" class="btn btn-lg"
+                    th:classappend="${(formMode.equals('add') ? 'btn-primary' : '') + (formMode.equals('edit') ? 'btn-success' : '') + (formMode.equals('delete') ? 'btn-danger' : '')}" th:text="|${#strings.capitalize(formMode)} Accommodation|"></button>
+            <a class="btn btn-danger btn-lg" th:href="@{/}">Cancel</a>
+        </div>
+    </form>
+</th:block>

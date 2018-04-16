@@ -1,8 +1,12 @@
 package org.softuni.accommodationreviews.areas.accommodations;
 
+import org.modelmapper.ModelMapper;
 import org.softuni.accommodationreviews.areas.accommodations.models.AccommodationBindingModel;
+import org.softuni.accommodationreviews.areas.accommodations.models.AccommodationServiceModel;
 import org.softuni.accommodationreviews.areas.accommodations.models.AddAccommodationViewModel;
 import org.softuni.accommodationreviews.areas.accommodations.services.AccommodationService;
+import org.softuni.accommodationreviews.areas.comments.models.CommentServiceModel;
+import org.softuni.accommodationreviews.areas.comments.services.CommentService;
 import org.softuni.accommodationreviews.areas.towns.models.TownServiceModel;
 import org.softuni.accommodationreviews.areas.towns.services.TownService;
 import org.softuni.accommodationreviews.controllers.BaseController;
@@ -21,14 +25,17 @@ public class AccommodationController extends BaseController {
 
     private final TownService townService;
     private final AccommodationService accommodationService;
+    private final CommentService commentService;
 
-    public AccommodationController(TownService townService, AccommodationService accommodationService) {
+    public AccommodationController(TownService townService, AccommodationService accommodationService, CommentService
+            commentService) {
         this.townService = townService;
         this.accommodationService = accommodationService;
+        this.commentService = commentService;
     }
 
     @GetMapping("/add")
-    public ModelAndView addVirus(Model model) {
+    public ModelAndView addAccommodation(Model model) {
 
         if(!model.containsAttribute("accommodationInput")) {
             model.addAttribute("accommodationInput", new AccommodationBindingModel());
@@ -44,7 +51,7 @@ public class AccommodationController extends BaseController {
     }
 
     @PostMapping("/add")
-    public ModelAndView addVirusConfirm(@Valid @ModelAttribute(name = "accommodationInput")
+    public ModelAndView addAccommodationConfirm(@Valid @ModelAttribute(name = "accommodationInput")
                                                     AccommodationBindingModel accommodationBindingModel,
                                         BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if(bindingResult.hasErrors()) {
@@ -55,86 +62,91 @@ public class AccommodationController extends BaseController {
             return this.redirect("/add");
 
         } else {
-            this.accommodationService.createVirus(accommodationBindingModel);
+            this.accommodationService.createAccommodation(accommodationBindingModel);
             return this.redirect("/show");
         }
     }
 
     @GetMapping("/edit/{id}")
-    public ModelAndView editVirus(@PathVariable String id, ModelAndView modelAndView, Model model, ModelMapper modelMapper) {
-        VirusServiceModel virusById = this.virusService.getById(id);
+    public ModelAndView editAccommodation(@PathVariable Long id, Model model, ModelMapper modelMapper) {
+        AccommodationServiceModel accommodationById = this.accommodationService.getById(id);
 
-        modelAndView.setViewName("add-virus");
+        if(!model.containsAttribute("accommodationInput")) {
+            AccommodationBindingModel bindingModel = modelMapper.map(accommodationById, AccommodationBindingModel.class);
 
-        if(!model.containsAttribute("virusInput")) {
-            AddVirusBindingModel bindingModel = modelMapper.map(virusById, AddVirusBindingModel.class);
-
-            model.addAttribute("virusInput", bindingModel);
+            model.addAttribute("accommodationInput", bindingModel);
         }
 
-        AddVirusViewModel viewModel = new AddVirusViewModel();
+        AddAccommodationViewModel viewModel = new AddAccommodationViewModel();
 
-        viewModel.setId(virusById.getId());
+        viewModel.setId(accommodationById.getId());
 
-        for (CapitalServiceModel capitalServiceModel : this.capitalService.getAllCapitals()) {
-            viewModel.getCapitals().add(capitalServiceModel.getName());
-        }
-
-        modelAndView.addObject("virusViewModel", viewModel);
-
-        return modelAndView;
+        return this.view("accommodation/add-accommodation", "accommodationModel", viewModel);
     }
 
     @PostMapping("/edit/{id}")
-    public ModelAndView editVirusConfirm(@PathVariable String id, @Valid @ModelAttribute(name = "virusInput") AddVirusBindingModel addVirusBindingModel, BindingResult bindingResult, ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
+    public ModelAndView editAccommodationConfirm(@PathVariable Long id, @Valid @ModelAttribute(name = "virusInput")
+            AccommodationBindingModel accommodationBindingModel, BindingResult bindingResult,
+                                         RedirectAttributes redirectAttributes) {
         if(bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.virusInput", bindingResult);
-            redirectAttributes.addFlashAttribute("virusInput", addVirusBindingModel);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.accommodationInput",
+                    bindingResult);
+            redirectAttributes.addFlashAttribute("accommodationInput", accommodationBindingModel);
 
-            modelAndView.setViewName("redirect:add");
+            return this.redirect("/add");
+
         } else {
-            this.virusService.editVirus(id, addVirusBindingModel);
-            modelAndView.setViewName("redirect:/viruses/show");
+            this.accommodationService.editAccommodation(id, accommodationBindingModel);
+            return this.redirect("accommodation/show");
         }
-
-        return modelAndView;
     }
 
     @GetMapping("/delete/{id}")
-    public ModelAndView deleteVirus(@PathVariable String id, ModelAndView modelAndView, Model model, ModelMapper modelMapper) {
-        VirusServiceModel virusById = this.virusService.getById(id);
+    public ModelAndView deleteAccommodation(@PathVariable Long id, Model model, ModelMapper modelMapper) {
 
-        modelAndView.setViewName("add-virus");
+        AccommodationServiceModel accommodationById = this.accommodationService.getById(id);
 
-        model.addAttribute("virusInput", modelMapper.map(virusById, AddVirusBindingModel.class));
+        model.addAttribute("accommodationInput", modelMapper.map(accommodationById, AccommodationBindingModel.class));
 
-        AddVirusViewModel viewModel = new AddVirusViewModel();
-        viewModel.setId(virusById.getId());
+        AddAccommodationViewModel viewModel = new AddAccommodationViewModel();
+        viewModel.setId(accommodationById.getId());
 
-        for (CapitalServiceModel capitalServiceModel : this.capitalService.getAllCapitals()) {
-            viewModel.getCapitals().add(capitalServiceModel.getName());
+        for (CommentServiceModel commentServiceModel : this.commentService.getAllComments()) {
+            viewModel.getComments().add(commentServiceModel.getDescription());
         }
 
-        modelAndView.addObject("virusViewModel", viewModel);
-
-        return modelAndView;
+        return this.view("accommodation/add-accommodation", "accommodationViewModel", viewModel);
     }
 
     @PostMapping("/delete/{id}")
-    public ModelAndView deleteConfirm(@PathVariable String id, ModelAndView modelAndView) {
-        this.virusService.deleteVirus(id);
+    public ModelAndView deleteConfirm(@PathVariable Long id) {
+        this.accommodationService.deleteAccommodation(id);
 
-        modelAndView.setViewName("redirect:/viruses/show");
-
-        return modelAndView;
+        return this.redirect("accommodation/show");
     }
 
     @GetMapping("/show")
-    public ModelAndView showViruses(ModelAndView modelAndView) {
-        modelAndView.setViewName("show-viruses");
+    public ModelAndView showAccommodations() {
 
-        modelAndView.addObject("viruses", this.virusService.getAllViruses());
+        return this.view("accommodation/show-accommodations",
+                "accommodations", this.accommodationService.getAllAccommodations());
+    }
 
-        return modelAndView;
+    @GetMapping("/comment/{id}")
+    public ModelAndView commentAccommodation(@PathVariable Long id, Model model, ModelMapper modelMapper) {
+
+        AccommodationServiceModel accommodationById = this.accommodationService.getById(id);
+
+        if(!model.containsAttribute("accommodationInput")) {
+            AccommodationBindingModel bindingModel = modelMapper.map(accommodationById, AccommodationBindingModel.class);
+
+            model.addAttribute("accommodationInput", bindingModel);
+        }
+
+        AddAccommodationViewModel viewModel = new AddAccommodationViewModel();
+
+        viewModel.setId(accommodationById.getId());
+
+        return this.view("accommodation/comment-accommodation", "accommodationModel", viewModel);
     }
 }

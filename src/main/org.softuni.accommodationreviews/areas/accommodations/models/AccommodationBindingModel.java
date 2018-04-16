@@ -1,6 +1,5 @@
 package org.softuni.accommodationreviews.areas.accommodations.models;
 
-import org.softuni.accommodationreviews.areas.towns.Town;
 import org.softuni.accommodationreviews.custom.FutureDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -24,7 +23,9 @@ public class AccommodationBindingModel {
 
     private String photo;
 
-    private Town accommodationTown;
+    private String accommodationUser;
+
+    private String accommodationTown;
 
     public String getName() {
         return name;
@@ -58,11 +59,19 @@ public class AccommodationBindingModel {
         this.photo = photo;
     }
 
-    public Town getAccommodationTown() {
+    public String getAccommodationUser() {
+        return accommodationUser;
+    }
+
+    public void setAccommodationUser(String accommodationUser) {
+        this.accommodationUser = accommodationUser;
+    }
+
+    public String getAccommodationTown() {
         return accommodationTown;
     }
 
-    public void setAccommodationTown(Town accommodationTown) {
+    public void setAccommodationTown(String accommodationTown) {
         this.accommodationTown = accommodationTown;
     }
 }

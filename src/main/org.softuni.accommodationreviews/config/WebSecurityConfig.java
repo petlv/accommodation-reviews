@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] PERMITTED_ROUTES = {
-            "/", "/register", "/map", "/test", "/asd", "/images", "/admin/**"
+            "/", "/register", "/map", "/test", "/asd", "/images", "/admin/**", "/accommodation/**"
     };
 
     private final UserDetailsService userDetailsService;
@@ -39,12 +39,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(PERMITTED_ROUTES).permitAll()
                 //.antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
-        .and().formLogin()
+        .and()
+                .formLogin()
                 .loginPage("/login").permitAll()
                 .loginProcessingUrl("/login")
                 .usernameParameter("username").passwordParameter("password")
                 .defaultSuccessUrl("/home")
-                .failureUrl("/error")
+                .failureUrl("/error2")
         .and()
                 .rememberMe()
                 .rememberMeParameter("remember")

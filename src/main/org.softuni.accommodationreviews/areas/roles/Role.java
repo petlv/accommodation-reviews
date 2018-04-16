@@ -1,6 +1,7 @@
-package org.softuni.accommodationreviews.entities;
+package org.softuni.accommodationreviews.areas.roles;
 
 import org.softuni.accommodationreviews.areas.users.User;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -8,7 +9,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "roles")
-public class Role {
+public class Role implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,9 +22,9 @@ public class Role {
     private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private String authority;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userRoles")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "authorities")
     private Set<User> roleUsers;
 
     public Role() {
@@ -38,12 +39,8 @@ public class Role {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setAuthority(String authority) {
+        this.authority = authority;
     }
 
     public Set<User> getRoleUsers() {
@@ -52,5 +49,10 @@ public class Role {
 
     public void setRoleUsers(Set<User> roleUsers) {
         this.roleUsers = roleUsers;
+    }
+
+    @Override
+    public String getAuthority() {
+        return this.authority;
     }
 }

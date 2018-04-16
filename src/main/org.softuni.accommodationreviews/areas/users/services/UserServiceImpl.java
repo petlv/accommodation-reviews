@@ -1,9 +1,9 @@
 package org.softuni.accommodationreviews.areas.users.services;
 
-import org.softuni.accommodationreviews.entities.Role;
+import org.softuni.accommodationreviews.areas.roles.Role;
 import org.softuni.accommodationreviews.areas.users.User;
 import org.softuni.accommodationreviews.areas.users.UserBindingModel;
-import org.softuni.accommodationreviews.repositories.RoleRepository;
+import org.softuni.accommodationreviews.areas.roles.RoleRepository;
 import org.softuni.accommodationreviews.areas.users.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -52,24 +52,24 @@ public class UserServiceImpl implements UserService {
 
         switch (optionsRadios) {
             case "tourist":
-                if (this.roleRepository.findFirstByName("TOURIST") == null) {
-                    role.setName("TOURIST");
+                if (this.roleRepository.findFirstByAuthority("TOURIST") == null) {
+                    role.setAuthority("TOURIST");
                     role.setRoleUsers(new HashSet<>());
                 } else {
-                    role = this.roleRepository.findFirstByName("TOURIST");
+                    role = this.roleRepository.findFirstByAuthority("TOURIST");
                 }; break;
             case "owner":
-                if (this.roleRepository.findFirstByName("OWNER") == null) {
-                    role.setName("OWNER");
+                if (this.roleRepository.findFirstByAuthority("OWNER") == null) {
+                    role.setAuthority("OWNER");
                     role.setRoleUsers(new HashSet<>());
                 } else {
-                    role = this.roleRepository.findFirstByName("OWNER");
+                    role = this.roleRepository.findFirstByAuthority("OWNER");
                 }; break;
             default: throw new InputMismatchException();
         }
 
         role.getRoleUsers().add(user);
-        user.getUserRoles().add(role);
+        user.getSimpleAuthorities().add(role);
         this.roleRepository.save(role);
     }
 
@@ -84,6 +84,11 @@ public class UserServiceImpl implements UserService {
         checkIfOwner(model, optionsRadios, user);
         assignRole(user, optionsRadios);
 
+        user.setCredentialsNonExpired(true);
+        user.setAccountNonExpired(true);
+        user.setAccountNonLocked(true);
+        user.setEnabled(true);
+
         return this.userRepository.save(user);
     }
 
@@ -95,8 +100,8 @@ public class UserServiceImpl implements UserService {
             throw new UsernameNotFoundException("User not found");
         }
 
-        Set<GrantedAuthority> roles = user.getUserRoles()
-                .stream().map(r -> new SimpleGrantedAuthority("ROLE_" + r.getName()))
+        Set<GrantedAuthority> roles = user.getSimpleAuthorities()
+                .stream().map(r -> new SimpleGrantedAuthority("ROLE_" + r.getAuthority()))
                 .collect(Collectors.toSet());
 
         UserDetails userDetails;

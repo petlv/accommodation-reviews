@@ -1,6 +1,5 @@
-package org.softuni.accommodationreviews.entities;
+package org.softuni.accommodationreviews.areas.comments;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.softuni.accommodationreviews.areas.accommodations.Accommodation;
 import org.softuni.accommodationreviews.areas.users.User;
 
@@ -10,13 +9,16 @@ import javax.persistence.*;
 @Table(name = "comments")
 public class Comment {
     @Id
-    @GeneratedValue(generator = "UUID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    /*@GeneratedValue(generator = "UUID")
     @GenericGenerator(
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
-    )
+    )*/
     @Column(name = "id", updatable = false, nullable = false)
-    private String id;
+    private Long id;
+
+    private String description;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_comments")
@@ -29,12 +31,20 @@ public class Comment {
     public Comment() {
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public User getCommentUser() {

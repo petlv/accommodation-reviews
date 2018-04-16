@@ -1,12 +1,12 @@
 package org.softuni.accommodationreviews.areas.towns;
 
-import org.softuni.accommodationreviews.areas.towns.models.TownProjectionModel;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@RepositoryRestResource(excerptProjection = TownProjectionModel.class)
+//@RepositoryRestResource(excerptProjection = TownProjectionModel.class)
+@Repository
 public interface TownRepository extends JpaRepository<Town, Long> {
 
     //TownProjectionModel findByTitle(@Param("title") String name);

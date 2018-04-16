@@ -1,6 +1,6 @@
 package org.softuni.accommodationreviews.areas.accommodations;
 
-import org.softuni.accommodationreviews.entities.Comment;
+import org.softuni.accommodationreviews.areas.comments.Comment;
 import org.softuni.accommodationreviews.areas.towns.Town;
 import org.softuni.accommodationreviews.areas.users.User;
 

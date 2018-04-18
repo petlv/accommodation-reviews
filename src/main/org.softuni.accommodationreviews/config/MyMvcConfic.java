@@ -25,8 +25,8 @@ public class MyMvcConfic implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        //registry.addInterceptor(this.logMessageInterceptor);
+        registry.addInterceptor(this.logMessageInterceptor);
         //registry.addInterceptor(this.captchaInterceptor);
-        //registry.addInterceptor(this.accommodationFormInterceptor);
+        registry.addInterceptor(this.accommodationFormInterceptor);
     }
 }

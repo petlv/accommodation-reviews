@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:insert="~{fragments/head}">head</th:block>
+    <title>User Profile</title>
+</head>
+<body>
+<nav th:replace="~{fragments/nav}"></nav>
+
+<div class="container-fluid">
+    <div class="container mt-5">
+        <form th:method="post" th:object="${currentUser}">
+            <fieldset>
+                <legend><h1>User Details</h1></legend>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input th:field="*{username}" class="form-control" id="username" readonly/>
+                </div>
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input th:field="*{fullName}" class="form-control" id="fullName" readonly/>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input th:field="*{email}" class="form-control" id="email" readonly/>
+                </div>
+                <fieldset>
+                    <div class="form-group">
+                        <th:block th:if="*{isOwner == true}">
+                            <label for="owner">User Role</label>
+                            <input th:value="owner" class="form-control"  id="owner" readonly/>
+                        </th:block>
+                    </div>
+                    <div class="form-group">
+                        <th:block th:if="*{isOwner == false}">
+                            <label for="tourist">User Role</label>
+                            <input th:value="owner" class="form-control"  id="tourist" readonly/>
+                        </th:block>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <div class="form-group">
+                        <th:block th:if="*{isOwner == true}">
+                            <label for="accommodations">Accommodations</label>
+                            <input th:field="*{userAccommodations}" class="form-control"  id="accommodations" readonly/>
+                        </th:block>
+                    </div>
+                    <div class="form-group">
+                        <th:block th:if="*{isOwner == false}">
+                            <label for="comments">Comments</label>
+                            <input th:field="*{userComments}" class="form-control"  id="comments" readonly/>
+                        </th:block>
+                    </div>
+                </fieldset>
+                <div class="form-group">
+                    <label for="authorities">Authorities</label>
+                    <input th:field="*{authorities}" class="form-control" id="authorities" readonly/>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+</body>
+</html>

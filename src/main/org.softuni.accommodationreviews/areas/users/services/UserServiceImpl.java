@@ -1,12 +1,12 @@
 package org.softuni.accommodationreviews.areas.users.services;
 
 import org.softuni.accommodationreviews.areas.roles.Role;
-import org.softuni.accommodationreviews.areas.users.User;
-import org.softuni.accommodationreviews.areas.users.UserBindingModel;
 import org.softuni.accommodationreviews.areas.roles.RoleRepository;
+import org.softuni.accommodationreviews.areas.users.User;
+import org.softuni.accommodationreviews.areas.users.models.UserBindingModel;
 import org.softuni.accommodationreviews.areas.users.UserRepository;
+import org.softuni.accommodationreviews.areas.users.models.UserViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-@Primary
+//@Primary
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -39,9 +39,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public void checkIfOwner(UserBindingModel userModel, String optionsRadios, User user) {
         if (optionsRadios.equals("tourist")) {
-            user.setOwner(false);
+            user.setIsOwner(false);
         } else if (optionsRadios.equals("owner")) {
-            user.setOwner(true);
+            user.setIsOwner(true);
         }
     }
 
@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User register(UserBindingModel model, String optionsRadios) {
+    public boolean register(UserBindingModel model, String optionsRadios) {
         User user = new User();
         user.setUsername(model.getUsername());
         user.setPassword(this.passwordEncoder.encode(model.getPassword()));
@@ -89,7 +89,31 @@ public class UserServiceImpl implements UserService {
         user.setAccountNonLocked(true);
         user.setEnabled(true);
 
-        return this.userRepository.save(user);
+        this.userRepository.save(user);
+
+        return true;
+    }
+
+    @Override
+    public boolean edit(UserViewModel model, String username) {
+        User user = this.userRepository.findFirstByUsername(username);
+        if (!model.getPassword().trim().equals(user.getPassword())) {
+            user.setPassword(this.passwordEncoder.encode(model.getPassword()));
+        }
+        user.setUsername(model.getUsername());
+        user.setFullName(model.getFullName());
+        user.setEmail(model.getEmail());
+        user.setIsOwner(model.getIsOwner());
+        if(user.getIsOwner()) {
+            user.setUserAccommodations(model.getUserAccommodations());
+        } else {
+            user.setUserComments(model.getUserComments());
+        }
+        user.setAuthorities(model.getAuthorities());
+
+        this.userRepository.save(user);
+
+        return true;
     }
 
     @Override
@@ -97,7 +121,7 @@ public class UserServiceImpl implements UserService {
         User user = this.userRepository.findFirstByUsername(username);
 
         if (user == null) {
-            throw new UsernameNotFoundException("User not found");
+            throw new UsernameNotFoundException("User not found in the database");
         }
 
         Set<GrantedAuthority> roles = user.getSimpleAuthorities()

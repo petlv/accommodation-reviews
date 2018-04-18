@@ -1,6 +1,6 @@
 package org.softuni.accommodationreviews.controllers;
 
-import org.softuni.accommodationreviews.areas.users.UserBindingModel;
+import org.softuni.accommodationreviews.areas.users.models.UserBindingModel;
 import org.softuni.accommodationreviews.areas.users.services.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -45,12 +45,15 @@ public class SecurityController extends BaseController {
             return this.redirect("/register");
         }
 
-        if(userModel.getPassword().equals(userModel.getConfirmPassword())) {
-            this.userService.register(userModel, optionsRadios);
-        } else {
-            return this.redirect("/register");
+        if(!userModel.getPassword().equals(userModel.getConfirmPassword())) {
+            return this.registerConfirm(userModel, optionsRadios, bindingResult, redirectAttributes);
         }
-        return this.redirect("/login");
+
+        if(this.userService.register(userModel, optionsRadios)) {
+            return this.redirect("/login");
+        } else {
+            return this.registerConfirm(userModel, optionsRadios, bindingResult, redirectAttributes);
+        }
     }
 
     @GetMapping("/login")

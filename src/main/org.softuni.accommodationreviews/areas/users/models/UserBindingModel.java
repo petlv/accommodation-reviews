@@ -1,4 +1,4 @@
-package org.softuni.accommodationreviews.areas.users;
+package org.softuni.accommodationreviews.areas.users.models;
 
 import javax.validation.constraints.Size;
 

@@ -1,7 +1,8 @@
 package org.softuni.accommodationreviews.areas.users.services;
 
 import org.softuni.accommodationreviews.areas.users.User;
-import org.softuni.accommodationreviews.areas.users.UserBindingModel;
+import org.softuni.accommodationreviews.areas.users.models.UserBindingModel;
+import org.softuni.accommodationreviews.areas.users.models.UserViewModel;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService {
@@ -10,7 +11,9 @@ public interface UserService extends UserDetailsService {
 
     void assignRole(User user, String optionsRadios);
 
-    User register(UserBindingModel model, String optionsRadios);
+    boolean register(UserBindingModel model, String optionsRadios);
+
+    boolean edit(UserViewModel model, String username);
 
 
 

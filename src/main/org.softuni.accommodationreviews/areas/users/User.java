@@ -3,7 +3,6 @@ package org.softuni.accommodationreviews.areas.users;
 import org.softuni.accommodationreviews.areas.accommodations.Accommodation;
 import org.softuni.accommodationreviews.areas.comments.Comment;
 import org.softuni.accommodationreviews.areas.roles.Role;
-import org.softuni.accommodationreviews.listeners.PasswordChangedListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -14,7 +13,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-@EntityListeners(PasswordChangedListener.class)
+//@EntityListeners(PasswordChangedListener.class)
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -76,18 +75,16 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    @Override
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
     public void setUsername(String username) {
         this.username = username;
     }
 
-    @Override
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     public void setPassword(String password) {
@@ -110,11 +107,11 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-    public boolean isOwner() {
+    public boolean getIsOwner() {
         return isOwner;
     }
 
-    public void setOwner(boolean owner) {
+    public void setIsOwner(boolean owner) {
         isOwner = owner;
     }
 

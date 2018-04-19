@@ -29,6 +29,7 @@ public class Comment {
     private Accommodation commentAccommodation;
 
     public Comment() {
+
     }
 
     public Long getId() {

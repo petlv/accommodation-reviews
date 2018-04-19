@@ -14,7 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] PERMITTED_ROUTES = {
-            "/", "/register", "/map", "/test", "/asd", "/images", "/admin/**", "/accommodation/**"
+            "/", "/register", "/map", "/images", "/admin/**", "/accommodation/**", "/comment/**"
     };
 
     private final UserServiceImpl userDetailsService;

@@ -18,23 +18,17 @@
                 <th scope="col">Description</th>
                 <th scope="col">Valid Until</th>
                 <th scope="col">Photo</th>
-                <th scope="col">Owner</th>
-                <th scope="col">Comments</th>
-                <th scope="col">Town</th>
                 <th scope="col">Actions</th>
             </tr>
             </thead>
             <tbody>
-            <th:block th:each="accommodation,iter : ${all-accommodations}" th:object="${accommodation}">
+            <th:block th:each="accommodation,iter : ${accommodations}" th:object="${accommodation}">
                 <tr>
                     <th scope="row" th:text="${iter.index + 1}"></th>
                     <td th:text="*{name}"></td>
                     <td th:text="*{description}"></td>
                     <td th:text="*{validUntil}"></td>
                     <td th:text="*{photo}"></td>
-                    <td th:text="*{accommodationUser.getUsername()}"></td>
-                    <td th:text="*{accommodationComments.getDescription()}"></td>
-                    <td th:text="*{accommodationTown.getTitle()}"></td>
                     <td><a class="btn btn-secondary" th:href="@{/accommodation/comment/{id}(id=*{id})}">Comment</a></td>
                     <td><a class="btn btn-secondary" th:href="@{/accommodation/edit/{id}(id=*{id})}">Edit</a></td>
                     <td><a class="btn btn-secondary" th:href="@{/accommodation/delete/{id}(id=*{id})}">Delete</a></td>

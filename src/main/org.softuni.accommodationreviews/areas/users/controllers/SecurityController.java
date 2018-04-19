@@ -1,7 +1,8 @@
-package org.softuni.accommodationreviews.controllers;
+package org.softuni.accommodationreviews.areas.users.controllers;
 
 import org.softuni.accommodationreviews.areas.users.models.UserBindingModel;
 import org.softuni.accommodationreviews.areas.users.services.UserService;
+import org.softuni.accommodationreviews.controllers.BaseController;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,7 @@ public class SecurityController extends BaseController {
     }
 
     @GetMapping("/register")
+    @PreAuthorize("!isAuthenticated()")
     public ModelAndView register(Model model) {
 
         if(!model.containsAttribute("registerInput")) {
@@ -32,11 +34,11 @@ public class SecurityController extends BaseController {
     }
 
     @PostMapping("/register")
-    @PreAuthorize("isAnonymous()")
+    @PreAuthorize("!isAuthenticated()")
     public ModelAndView registerConfirm(@Valid @ModelAttribute(name = "registerInput")
                                                     UserBindingModel userModel,
                                         @ModelAttribute("optionsRadios") String optionsRadios,
-                                        BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+                                        BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
 
         if(bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult" +
@@ -46,13 +48,13 @@ public class SecurityController extends BaseController {
         }
 
         if(!userModel.getPassword().equals(userModel.getConfirmPassword())) {
-            return this.registerConfirm(userModel, optionsRadios, bindingResult, redirectAttributes);
+            return this.register(model);
         }
 
         if(this.userService.register(userModel, optionsRadios)) {
             return this.redirect("/login");
         } else {
-            return this.registerConfirm(userModel, optionsRadios, bindingResult, redirectAttributes);
+            return this.register(model);
         }
     }
 
@@ -74,6 +76,7 @@ public class SecurityController extends BaseController {
     }
 
     @PostMapping("/logout")
+    @PreAuthorize("isAuthenticated()")
     public ModelAndView logout(@RequestParam(required = false, name = "logout") String logout,
                                ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
         modelAndView.setViewName("redirect:/login");

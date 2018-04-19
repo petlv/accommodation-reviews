@@ -1,16 +1,14 @@
-package org.softuni.accommodationreviews.areas.users;
+package org.softuni.accommodationreviews.areas.users.controllers;
 
+import org.softuni.accommodationreviews.areas.users.UserRepository;
+import org.softuni.accommodationreviews.areas.users.models.UserServiceModel;
 import org.softuni.accommodationreviews.areas.users.models.UserViewModel;
 import org.softuni.accommodationreviews.areas.users.services.UserService;
 import org.softuni.accommodationreviews.controllers.BaseController;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.security.Principal;
 
 //@RestController
 @Controller
@@ -25,27 +23,28 @@ public class UserController extends BaseController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("/show-profile")
+    @GetMapping("/profile-user/{username}")
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView showProfile(Principal principal) {
-        User userDetails = this.userRepository.findFirstByUsername(principal.getName());
+    public ModelAndView showProfile(@PathVariable String username) {
+        UserServiceModel userDetails = this.userService.findByUsernameCustom(username);
         return this.view("users/show-profile", "currentUser", userDetails);
     }
 
-    @GetMapping("/edit-profile")
+    @GetMapping("/edit-user/{username}")
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView editProfile(Principal principal) {
-        User userDetails = this.userRepository.findFirstByUsername(principal.getName());
+    public ModelAndView editProfile(@PathVariable String username) {
+        UserServiceModel userDetails = this.userService.findByUsernameCustom(username);
         return this.view("users/edit-profile", "currentUser", userDetails);
     }
 
-    @PostMapping("/edit-profile")
+    @PostMapping("/edit-user/{username}")
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView confirmEditProfile(UserViewModel model, Principal principal) {
-        if (this.userService.edit(model, principal.getName())) {
+    public ModelAndView confirmEditProfile(@ModelAttribute UserViewModel model, @PathVariable String username) {
+        UserServiceModel userDetails = this.userService.findByUsernameCustom(username);
+        if (this.userService.edit(model, userDetails.getUsername())) {
             return this.redirect("/");
         }
-        return this.confirmEditProfile(model, principal);
+        return this.editProfile(username);
     }
 
 }

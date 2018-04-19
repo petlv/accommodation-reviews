@@ -20,23 +20,7 @@
         <h3 class="text-center" th:text="|Name: *{name}, Latitude: *{latitude}, Longitude: *{longitude}|"></h3>
     </th:block>
 
-    <h1>POST WITH CAPTCHA</h1>
-    <form method="post" action="/secured_with_captcha">
-        <input type="text" name="username" placeholder="Enter username..."/><br />
-        Enter sum of: <span th:text="${num1} + ' + ' + ${num2} + ' = '"></span>
-        <input type="number" name="sum" placeholder="Enter sum here..."/><br />
-        <input type="submit"/>
-    </form>
-    <hr/>
 
-    <h1>POST WITHOUT CAPTCHA</h1>
-    <form method="post" action="/not_secured_with_captcha">
-        <input type="text" name="username" placeholder="Enter username..."/><br />
-        Enter sum of: <span th:text="${num1} + ' + ' + ${num2} + ' = '"></span>
-        <input type="number" name="sum" placeholder="Enter sum here..."/><br />
-        <input type="submit"/>
-    </form>
-    <hr/>
 
 </body>
 </html>

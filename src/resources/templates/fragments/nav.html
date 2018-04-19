@@ -8,10 +8,16 @@
     <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="/accommodation/show">Accommodations</a>
+                <a class="nav-link" href="/accommodation/show">Show Accommodations</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/comment/show-all">Show Comments</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/map">Map</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/images">Images</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">About</a>
@@ -21,12 +27,14 @@
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
                aria-haspopup="true" aria-expanded="false">My profile</a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="/user/show-profile">View Profile</a>
-                <a class="dropdown-item" href="/user/edit-profile">Edit Profile</a>
+                <a class="dropdown-item" th:href="@{/user/profile-user/{pathParam}
+                (pathParam=${#authentication.getName()})}">View Profile</a>
+                <a class="dropdown-item" th:href="@{/user/edit-user/{pathParam}
+                (pathParam=${#authentication.getName()})}">Edit Profile</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/accommodation/show">Show Accommodations</a>
-                <a class="dropdown-item" href="/admin/comments">Show Comments</a>
-                <a class="dropdown-item" href="/admin/towns">Show/Add Towns</a>
+                <a class="dropdown-item" sec:authorize="hasRole('OWNER')" href="/accommodation/show-my">My Accommodations</a>
+                <a class="dropdown-item" sec:authorize="hasRole('TOURIST')" href="/comment/show-my">My Comments</a>
+                <a class="dropdown-item" sec:authorize="hasRole('OWNER')" href="/town/show">Show/Add Towns</a>
             </div>
         </div>
         <div class="nav-item" sec:authorize="isAuthenticated()">

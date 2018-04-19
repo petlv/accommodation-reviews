@@ -7,7 +7,6 @@ import org.softuni.accommodationreviews.areas.accommodations.models.AddAccommoda
 import org.softuni.accommodationreviews.areas.accommodations.services.AccommodationService;
 import org.softuni.accommodationreviews.areas.comments.models.CommentServiceModel;
 import org.softuni.accommodationreviews.areas.comments.services.CommentService;
-import org.softuni.accommodationreviews.areas.towns.models.TownServiceModel;
 import org.softuni.accommodationreviews.areas.towns.services.TownService;
 import org.softuni.accommodationreviews.controllers.BaseController;
 import org.springframework.stereotype.Controller;
@@ -37,7 +36,9 @@ public class AccommodationController extends BaseController {
     @GetMapping("/add")
     public ModelAndView addAccommodation(Model model) {
 
-        if(!model.containsAttribute("accommodationInput")) {
+        return this.view("accommodation/add-accommodation", "towns", this.townService.getAllTowns());
+
+        /*if(!model.containsAttribute("accommodationInput")) {
             model.addAttribute("accommodationInput", new AccommodationBindingModel());
         }
 
@@ -47,7 +48,7 @@ public class AccommodationController extends BaseController {
             viewModel.getTowns().add(townServiceModel.getTitle());
         }
 
-        return this.view("accommodation/add-accommodation", "accommodationViewModel", viewModel);
+        return this.view("accommodation/add-accommodation", "accommodationViewModel", viewModel);*/
     }
 
     @PostMapping("/add")
@@ -59,11 +60,11 @@ public class AccommodationController extends BaseController {
                     bindingResult);
             redirectAttributes.addFlashAttribute("accommodationInput", accommodationBindingModel);
 
-            return this.redirect("/add");
+            return this.redirect("/accommodation/add");
 
         } else {
             this.accommodationService.createAccommodation(accommodationBindingModel);
-            return this.redirect("/show");
+            return this.redirect("/accommodation/show");
         }
     }
 
@@ -129,6 +130,13 @@ public class AccommodationController extends BaseController {
     public ModelAndView showAccommodations() {
 
         return this.view("accommodation/show-accommodations",
+                "all-accommodations", this.accommodationService.getAllAccommodations());
+    }
+
+    @GetMapping("/show-my")
+    public ModelAndView showMyAccommodations() {
+
+        return this.view("accommodation/my-accommodations",
                 "accommodations", this.accommodationService.getAllAccommodations());
     }
 

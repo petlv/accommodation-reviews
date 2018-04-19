@@ -1,10 +1,12 @@
 package org.softuni.accommodationreviews.areas.users.services;
 
+import org.modelmapper.ModelMapper;
 import org.softuni.accommodationreviews.areas.roles.Role;
 import org.softuni.accommodationreviews.areas.roles.RoleRepository;
 import org.softuni.accommodationreviews.areas.users.User;
 import org.softuni.accommodationreviews.areas.users.models.UserBindingModel;
 import org.softuni.accommodationreviews.areas.users.UserRepository;
+import org.softuni.accommodationreviews.areas.users.models.UserServiceModel;
 import org.softuni.accommodationreviews.areas.users.models.UserViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,12 +30,28 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final ModelMapper mapper;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder, ModelMapper mapper) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.mapper = mapper;
+    }
+
+    @Override
+    public UserServiceModel findByIdCustom(Long id) {
+        User user = this.userRepository.getOne(id);
+        UserServiceModel serviceModel = this.mapper.map(user, UserServiceModel.class);
+        return serviceModel;
+    }
+
+    @Override
+    public UserServiceModel findByUsernameCustom(String username) {
+        User user = this.userRepository.findFirstByUsername(username);
+        UserServiceModel serviceModel = this.mapper.map(user, UserServiceModel.class);
+        return serviceModel;
     }
 
     @Override

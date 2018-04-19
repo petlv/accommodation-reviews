@@ -13,7 +13,7 @@
         <div class="row mt-3">
             <div class="col-sm-4"></div>
             <div class="col-sm-4">
-                <form th:action="@{/admin/town-add}" th:method="GET">
+                <form th:action="@{/town/add-town}" th:method="GET">
                     <button type="submit" class="btn btn-primary btn-lg btn-block">Add Town</button>
                 </form>
             </div>
@@ -24,6 +24,8 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
+                <th scope="col">Latitude</th>
+                <th scope="col">Longitude</th>
             </tr>
             </thead>
             <tbody>
@@ -31,6 +33,8 @@
                 <tr>
                     <th scope="row" th:text="${iter.index + 1}"></th>
                     <td th:text="${town.getTitle()}"></td>
+                    <td th:text="${town.getLatitude()}"></td>
+                    <td th:text="${town.getLongitude()}"></td>
                 </tr>
             </th:block>
             </tbody>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:insert="~{fragments/head}">head</th:block>
+    <title>Add Town</title>
+</head>
+<body>
+<nav th:replace="~{fragments/nav}"></nav>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="form-holder text-center">
+            <form method="post">
+                <fieldset>
+                    <legend>Add Comment</legend>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="user">Tourist</label>
+                        <input type="text" class="form-control" id="user" name="user" th:value="${#authentication.getName()}"
+                               readonly />
+                    </div>
+                    <div class="form-group">
+                        <label for="accommodation">Accommodations</label>
+                        <select class="form-control" id="accommodation" name="accommodation">
+                            <th:block th:each="accommodation : ${accommodations}" th:object="${accommodation}">
+                                <option th:value="*{name}" th:text="*{name}">option</option>
+                            </th:block>
+                        </select>
+                    </div>
+                    <input type="hidden" th:name="${_csrf.parameterName}"
+                           th:value="${_csrf.token}" />
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

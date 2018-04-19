@@ -1,17 +1,14 @@
 package org.softuni.accommodationreviews.areas.comments.models;
 
-import org.softuni.accommodationreviews.areas.accommodations.Accommodation;
-import org.softuni.accommodationreviews.areas.users.User;
-
-public class CommentServiceModel {
+public class CommentViewModel {
 
     private Long id;
 
     private String description;
 
-    private User commentUser;
+    private String commentUser;
 
-    private Accommodation commentAccommodation;
+    private String commentAccommodation;
 
     public Long getId() {
         return id;
@@ -29,19 +26,19 @@ public class CommentServiceModel {
         this.description = description;
     }
 
-    public User getCommentUser() {
+    public String getCommentUser() {
         return commentUser;
     }
 
-    public void setCommentUser(User commentUser) {
+    public void setCommentUser(String commentUser) {
         this.commentUser = commentUser;
     }
 
-    public Accommodation getCommentAccommodation() {
+    public String getCommentAccommodation() {
         return commentAccommodation;
     }
 
-    public void setCommentAccommodation(Accommodation commentAccommodation) {
+    public void setCommentAccommodation(String commentAccommodation) {
         this.commentAccommodation = commentAccommodation;
     }
 }

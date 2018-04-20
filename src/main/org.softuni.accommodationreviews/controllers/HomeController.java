@@ -2,14 +2,11 @@ package org.softuni.accommodationreviews.controllers;
 
 import org.softuni.accommodationreviews.areas.cloud.CloudImageExtractor;
 import org.softuni.accommodationreviews.areas.cloud.CloudImageUploader;
-import org.softuni.accommodationreviews.models.ExcludeCaptcha;
-import org.softuni.accommodationreviews.models.binding.CaptchaBindingModel;
-import org.softuni.accommodationreviews.models.service.Image;
 import org.softuni.accommodationreviews.areas.towns.services.TownService;
 import org.softuni.accommodationreviews.areas.users.services.UserService;
+import org.softuni.accommodationreviews.models.service.Image;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -74,9 +71,9 @@ public class HomeController extends BaseController {
         return this.view("home/images");
     }
 
-    @GetMapping("/test")
+    @GetMapping("/about")
     public ModelAndView test() {
-        return this.view("home/test");
+        return this.view("home/about");
     }
 
 
@@ -91,19 +88,6 @@ public class HomeController extends BaseController {
                     this.townService.getByName(name));
         }
         return modelAndView;
-    }
-
-    @PostMapping("/secured_with_captcha")
-    public String secured(CaptchaBindingModel bindingModel, Model model) {
-        model.addAttribute("username", bindingModel.getUsername());
-        return "secured";
-    }
-
-    @ExcludeCaptcha
-    @PostMapping("/not_secured_with_captcha")
-    public String notSecured(CaptchaBindingModel bindingModel, Model model) {
-        model.addAttribute("username", bindingModel.getUsername());
-        return "not_secured";
     }
 
 }

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:insert="~{fragments/head}"></th:block>
+    <title>About page</title>
+</head>
+<body>
+<nav th:replace="~{fragments/nav}"></nav>
+
+<div class="container">
+    <h1>About page</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ipsum nunc, tristique dignissim augue vel,
+        sodales elementum massa. Praesent volutpat a elit sit amet dapibus. Donec eget nisl eget lacus vehicula luctus
+        sit amet ut libero. Duis purus augue, semper et augue vel, tincidunt ornare orci. Aenean viverra facilisis
+        nibh ac dictum. Curabitur at tincidunt diam. Ut luctus nisl nec elit cursus rhoncus. Ut dapibus feugiat nibh,
+        nec pretium arcu dapibus molestie. Proin mattis erat nec mattis efficitur. Pellentesque tempor tortor ut mauris
+        ornare, quis ultrices lectus luctus.</p>
+    <p><img src="/images/holiday-02.jpg" class="rounded mx-auto d-block" alt="holiday" width="900px" height="381"></p>
+    <p>Mauris consequat urna in magna egestas, nec mattis nisi consectetur. Morbi sit amet dolor imperdiet, pharetra felis
+        quis, scelerisque est. Fusce rhoncus non leo a fringilla. Proin porttitor semper laoreet. Donec viverra neque
+        mattis arcu ultricies, ut imperdiet nisi dictum. Sed ultrices ipsum libero, dictum accumsan tellus dignissim
+        semper. Aenean eu elit interdum, interdum nisi vitae, egestas felis. Cras auctor ante non mauris tempus, vel
+        blandit ligula semper.</p>
+    <p>Duis odio felis, efficitur non volutpat ac, euismod consequat nunc. In sit amet est sem. Donec enim odio,
+        interdum nec turpis in, tincidunt pulvinar enim. Nullam eget pulvinar nisi, a commodo metus. Curabitur sed
+        felis iaculis, interdum mi sit amet, commodo sem. Quisque quis tincidunt tellus. Nullam quis massa quis dui
+        interdum laoreet a a nisl.</p>
+</div>
+<footer th:replace="~{fragments/footer}"></footer>
+</body>
+</html>

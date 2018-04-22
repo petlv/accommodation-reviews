@@ -1,10 +1,11 @@
 package org.softuni.accommodationreviews.areas.accommodations.models;
 
+import org.softuni.accommodationreviews.areas.comments.Comment;
 import org.softuni.accommodationreviews.areas.towns.Town;
 import org.softuni.accommodationreviews.areas.users.User;
 
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 public class AccommodationServiceModel {
 
@@ -20,9 +21,12 @@ public class AccommodationServiceModel {
 
     private User accommodationUser;
 
-    private Set<Long> accommodationComments;
+    private List<Comment> accommodationComments;
 
     private Town accommodationTown;
+
+    public AccommodationServiceModel() {
+    }
 
     public Long getId() {
         return id;
@@ -72,11 +76,11 @@ public class AccommodationServiceModel {
         this.accommodationUser = accommodationUser;
     }
 
-    public Set<Long> getAccommodationComments() {
+    public List<Comment> getAccommodationComments() {
         return accommodationComments;
     }
 
-    public void setAccommodationComments(Set<Long> accommodationComments) {
+    public void setAccommodationComments(List<Comment> accommodationComments) {
         this.accommodationComments = accommodationComments;
     }
 

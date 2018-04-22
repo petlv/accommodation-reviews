@@ -6,8 +6,8 @@ import org.softuni.accommodationreviews.areas.users.User;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "accommodations")
@@ -38,7 +38,7 @@ public class Accommodation {
     private User accommodationUser;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "commentAccommodation")
-    private Set<Comment> accommodationComments;
+    private List<Comment> accommodationComments;
 
     @ManyToOne
     @JoinColumn(name = "town_accommodations")
@@ -46,7 +46,7 @@ public class Accommodation {
 
 
     public Accommodation() {
-        this.accommodationComments = new HashSet<>();
+        this.accommodationComments = new ArrayList<>();
     }
 
     public Long getId() {
@@ -97,11 +97,11 @@ public class Accommodation {
         this.accommodationUser = accommodationUser;
     }
 
-    public Set<Comment> getAccommodationComments() {
+    public List<Comment> getAccommodationComments() {
         return accommodationComments;
     }
 
-    public void setAccommodationComments(Set<Comment> accommodationComments) {
+    public void setAccommodationComments(List<Comment> accommodationComments) {
         this.accommodationComments = accommodationComments;
     }
 

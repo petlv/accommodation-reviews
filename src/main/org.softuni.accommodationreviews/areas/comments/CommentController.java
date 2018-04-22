@@ -3,6 +3,7 @@ package org.softuni.accommodationreviews.areas.comments;
 import org.softuni.accommodationreviews.areas.accommodations.models.AccommodationServiceModel;
 import org.softuni.accommodationreviews.areas.accommodations.services.AccommodationService;
 import org.softuni.accommodationreviews.areas.comments.models.CommentBindingModel;
+import org.softuni.accommodationreviews.areas.comments.models.CommentViewModel;
 import org.softuni.accommodationreviews.areas.comments.services.CommentService;
 import org.softuni.accommodationreviews.controllers.BaseController;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -30,10 +33,18 @@ public class CommentController extends BaseController {
     }
 
     @GetMapping("/show-my")
-    public ModelAndView myComments() {
+    public ModelAndView myComments(Principal principal) {
 
-        return this.view("comment/my-comments",
-                "comments", this.commentService.getAllComments());
+        List<CommentViewModel> listViewModel = this.commentService.fromServiceToViewModel();
+        List<CommentViewModel> myComments = new ArrayList<>();
+        for (CommentViewModel viewModel : listViewModel) {
+            if (viewModel.getCommentUser().equals(principal.getName())) {
+                myComments.add(viewModel);
+            }
+        }
+
+        return this.view("comment/show-comments",
+                "comments", myComments);
     }
 
     @GetMapping("/show-all")

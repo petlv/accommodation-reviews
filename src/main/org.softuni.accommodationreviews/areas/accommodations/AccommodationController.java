@@ -3,7 +3,8 @@ package org.softuni.accommodationreviews.areas.accommodations;
 import org.modelmapper.ModelMapper;
 import org.softuni.accommodationreviews.areas.accommodations.models.AccommodationBindingModel;
 import org.softuni.accommodationreviews.areas.accommodations.models.AccommodationServiceModel;
-import org.softuni.accommodationreviews.areas.accommodations.models.AddAccommodationViewModel;
+import org.softuni.accommodationreviews.areas.accommodations.models.AccommodationViewModel;
+import org.softuni.accommodationreviews.areas.accommodations.models.ShowAccViewModel;
 import org.softuni.accommodationreviews.areas.accommodations.services.AccommodationService;
 import org.softuni.accommodationreviews.areas.comments.models.CommentServiceModel;
 import org.softuni.accommodationreviews.areas.comments.services.CommentService;
@@ -17,6 +18,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/accommodation")
@@ -42,7 +46,7 @@ public class AccommodationController extends BaseController {
             model.addAttribute("accommodationInput", new AccommodationBindingModel());
         }
 
-        AddAccommodationViewModel viewModel = new AddAccommodationViewModel();
+        AccommodationViewModel viewModel = new AccommodationViewModel();
 
         for (TownServiceModel townServiceModel : this.townService.getAllTowns()) {
             viewModel.getTowns().add(townServiceModel.getTitle());
@@ -78,7 +82,7 @@ public class AccommodationController extends BaseController {
             model.addAttribute("accommodationInput", bindingModel);
         }
 
-        AddAccommodationViewModel viewModel = new AddAccommodationViewModel();
+        AccommodationViewModel viewModel = new AccommodationViewModel();
 
         viewModel.setId(accommodationById.getId());
 
@@ -109,7 +113,7 @@ public class AccommodationController extends BaseController {
 
         model.addAttribute("accommodationInput", modelMapper.map(accommodationById, AccommodationBindingModel.class));
 
-        AddAccommodationViewModel viewModel = new AddAccommodationViewModel();
+        AccommodationViewModel viewModel = new AccommodationViewModel();
         viewModel.setId(accommodationById.getId());
 
         for (CommentServiceModel commentServiceModel : this.commentService.getAllComments()) {
@@ -129,15 +133,36 @@ public class AccommodationController extends BaseController {
     @GetMapping("/show")
     public ModelAndView showAccommodations() {
 
+        ModelMapper mapper = new ModelMapper();
+        List<AccommodationViewModel> listAcm = this.accommodationService.fromServiceToViewModel();
+        List<ShowAccViewModel> listScvm = new ArrayList<>();
+
+        for (AccommodationViewModel acm : listAcm) {
+            ShowAccViewModel scvm = mapper.map(acm, ShowAccViewModel.class);
+            scvm.setComments(String.join("; ", acm.getComments()));
+            listScvm.add(scvm);
+        }
+
         return this.view("accommodation/show-accommodations",
-                "all-accommodations", this.accommodationService.getAllAccommodations());
+                "accommodations", listScvm);
     }
 
     @GetMapping("/show-my")
-    public ModelAndView showMyAccommodations() {
+    public ModelAndView showMyAccommodations(Principal principal) {
 
-        return this.view("accommodation/my-accommodations",
-                "accommodations", this.accommodationService.getAllAccommodations());
+        ModelMapper mapper = new ModelMapper();
+        List<AccommodationViewModel> listViewModel = this.accommodationService.fromServiceToViewModel();
+        List<ShowAccViewModel> myAccommodations = new ArrayList<>();
+        for (AccommodationViewModel viewModel : listViewModel) {
+            if (viewModel.getUser().equals(principal.getName())) {
+                ShowAccViewModel savm = mapper.map(viewModel, ShowAccViewModel.class);
+                savm.setComments(String.join("; ", viewModel.getComments()));
+                myAccommodations.add(savm);
+            }
+        }
+
+        return this.view("accommodation/show-accommodations",
+                "accommodations", myAccommodations);
     }
 
     @GetMapping("/comment/{id}")
@@ -151,7 +176,7 @@ public class AccommodationController extends BaseController {
             model.addAttribute("accommodationInput", bindingModel);
         }
 
-        AddAccommodationViewModel viewModel = new AddAccommodationViewModel();
+        AccommodationViewModel viewModel = new AccommodationViewModel();
 
         viewModel.setId(accommodationById.getId());
 

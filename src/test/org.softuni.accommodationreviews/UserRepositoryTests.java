@@ -33,15 +33,25 @@ public class UserRepositoryTests {
         // arrange
         User pesho = new User();
         pesho.setUsername("pesho");
-        pesho.setPassword("1");
+        pesho.setPassword("1234");
+        pesho.setFullName("Petar Stoyanov");
+        pesho.setEmail("pesho@abv.bg");
+        pesho.setIsOwner(true);
 
         User mincho = new User();
         mincho.setUsername("mincho");
-        mincho.setPassword("2");
+        mincho.setPassword("1234");
+        mincho.setFullName("Mincho Petrov");
+        mincho.setEmail("mincho@abv.bg");
+        mincho.setIsOwner(false);
 
         User gosho = new User();
         gosho.setUsername("gosho");
         gosho.setPassword("3");
+        gosho.setFullName("Georgy Tzvetkov");
+        gosho.setEmail("george@mail.bg");
+        gosho.setIsOwner(true);
+
         this.testEntityManager.persistAndFlush(pesho);
         this.testEntityManager.persistAndFlush(mincho);
         this.testEntityManager.persistAndFlush(gosho);

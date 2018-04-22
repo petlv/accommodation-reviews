@@ -18,6 +18,9 @@ public class UserBindingModel {
     @Size(min = 4, max = 35, message = "Length must be between 4 and 35 symbols")
     private String email;
 
+    public UserBindingModel() {
+    }
+
     public String getUsername() {
         return username;
     }

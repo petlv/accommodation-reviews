@@ -87,6 +87,7 @@
           <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.8.2" />
           <element id="library" level="project" name="Maven: com.squareup.okhttp3:okhttp:3.9.1" />
           <element id="library" level="project" name="Maven: com.squareup.okio:okio:1.13.0" />
+          <element id="library" level="project" name="Maven: javax.xml.bind:jaxb-api:2.3.0" />
         </element>
       </element>
       <element id="directory" name="META-INF">

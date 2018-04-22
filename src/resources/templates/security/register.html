@@ -14,10 +14,15 @@
             <form th:method="POST" th:object="${registerInput}">
                 <fieldset>
                     <legend>Register</legend>
-                    <div class="form-group">
+                    <div class="form-group" th:classappend="${#fields.hasErrors('username')} ? 'has-danger'">
                         <label for="username">Username</label>
-                        <input type="text" class="form-control" id="username" name="username"
+                        <input type="text" class="form-control" th:field="*{username}" th:value="${registerInput.getUsername()}"
+                               id="username" name="username"
                                th:required="required" placeholder="Enter username"/>
+                        <th:block th:each="error : ${#fields.errors('username')}">
+                            <small class="text-danger"
+                                   th:text="${error}"></small>
+                        </th:block>
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>

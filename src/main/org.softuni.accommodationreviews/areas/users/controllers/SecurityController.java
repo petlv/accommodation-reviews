@@ -44,7 +44,7 @@ public class SecurityController extends BaseController {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult" +
                     ".registerInput", bindingResult);
             redirectAttributes.addFlashAttribute("registerInput", userModel);
-            return this.redirect("/register");
+            return this.register(model);
         }
 
         if(!userModel.getPassword().equals(userModel.getConfirmPassword())) {
